@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cg6c1mhllr8dn"]
+
+[ext_resource type="PackedScene" uid="uid://d4l7l6wtcoevk" path="res://deleteThis/DeleteThis.glb" id="1_rhv8d"]
+
+[node name="DeleteThis" unique_id=1055054024 instance=ExtResource("1_rhv8d")]
+
+[node name="SketchfabModel" parent="." index="0" unique_id=1156977659]
+transform = Transform3D(2.9621058, 0, 0, 0, -1.2223059e-06, 2.3696847, 0, -3.4178145, -8.474653e-07, -1.1392715, 0, 0)
+
+[node name="Object_2" parent="SketchfabModel/SketchfabModel-colonly" parent_id_path=PackedInt32Array(466247228) index="0" unique_id=130168439]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Object_3" parent="SketchfabModel/SketchfabModel-colonly" parent_id_path=PackedInt32Array(466247228) index="1" unique_id=1757719537]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Object_4" parent="SketchfabModel/SketchfabModel-colonly" parent_id_path=PackedInt32Array(466247228) index="2" unique_id=2122862647]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Object_5" parent="SketchfabModel/SketchfabModel-colonly" parent_id_path=PackedInt32Array(466247228) index="3" unique_id=1428065437]
+collision_layer = 2
+collision_mask = 2

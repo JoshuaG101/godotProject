@@ -1,0 +1,15 @@
+[gd_resource type="VisualShader" format=3 uid="uid://dddkpjfhioixl"]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_cppx5"]
+parameter_name = "Texture2DParameter"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_2pmke"]
+source = 5
+
+[resource]
+nodes/vertex/0/position = Vector2(380, 60)
+nodes/vertex/2/node = SubResource("VisualShaderNodeTexture2DParameter_cppx5")
+nodes/vertex/2/position = Vector2(-260, 60)
+nodes/vertex/3/node = SubResource("VisualShaderNodeTexture_2pmke")
+nodes/vertex/3/position = Vector2(80, 80)
+nodes/vertex/connections = PackedInt32Array(2, 0, 3, 2, 3, 0, 0, 1)

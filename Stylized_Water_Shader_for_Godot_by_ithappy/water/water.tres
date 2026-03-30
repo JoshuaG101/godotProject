@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dawy8k3uej2ev"]
+
+[ext_resource type="Shader" uid="uid://c6l6hmff0sdv3" path="res://Stylized_Water_Shader_for_Godot_by_ithappy/water/shaders/water.tres" id="1_6gfwt"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_6gfwt")
+shader_parameter/ShallowColor = Color(0.7228324, 0, 0.118890755, 1)
+shader_parameter/DeepColor = Color(0.12941177, 0.9019608, 1, 1)
+shader_parameter/ParallaxSpeed = Vector2(0.1, 0.1)
+shader_parameter/Depth = -3.0
+shader_parameter/ParallaxTiling = Vector2(0.025, 0.025)
+shader_parameter/FoamColor = Color(0.09311796, 0.99999994, 0.9560767, 1)
+shader_parameter/FoamSpeed = Vector2(0.1, 0.1)
+shader_parameter/FoamTiling = Vector2(0.02, 0.02)

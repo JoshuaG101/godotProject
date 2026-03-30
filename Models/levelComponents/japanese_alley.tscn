@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dmn7ne476t8u7"]
+
+[ext_resource type="PackedScene" uid="uid://d12it46faxfp" path="res://deleteTHIS2/japaneseAlley.glb" id="1_q5h2u"]
+
+[node name="japaneseAlley" unique_id=586199257 instance=ExtResource("1_q5h2u")]
+
+[node name="defaultMaterial" parent="DomekRdy_Kwiaciarnia/defaultMaterial" parent_id_path=PackedInt32Array(612616073) index="0" unique_id=1704252710]
+collision_layer = 2
+collision_mask = 2

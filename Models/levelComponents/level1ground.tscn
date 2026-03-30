@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://benxx0oox104l"]
+
+[ext_resource type="PackedScene" uid="uid://b80faatf4xgy" path="res://Models/levelComponents/level2Floor.glb" id="1_x5im4"]
+
+[node name="level2Floor" unique_id=288306915 instance=ExtResource("1_x5im4")]
+
+[node name="Grid" parent="." index="0" unique_id=1374567736]
+transform = Transform3D(100, 0, 0, 0, -25, 3.8941438e-05, 0, -9.7353595e-06, -100, 0, 14.796258, 0)
+layers = 7
+
+[node name="Grid" parent="Grid" index="0" unique_id=2044471930]
+collision_layer = 2
+collision_mask = 2

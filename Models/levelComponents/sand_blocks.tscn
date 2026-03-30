@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ba4cqpey6gx2c"]
+
+[ext_resource type="PackedScene" uid="uid://2j114tr77y4g" path="res://Models/blocks/sandBlocks.glb" id="1_c47w0"]
+
+[node name="sandBlocks" unique_id=692177020 instance=ExtResource("1_c47w0")]
+
+[node name="slide" parent="." index="1" unique_id=988682724]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.452114)
+
+[node name="slab" parent="." index="2" unique_id=1015128216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00014639083, 0, 1.7385254)
+
+[node name="CollisionShape3D" parent="lowerSlide/lowerSlide" parent_id_path=PackedInt32Array(1800153518) index="0" unique_id=1451104964]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012546302, 0)
+
+[node name="CollisionShape3D" parent="corner/corner" parent_id_path=PackedInt32Array(1801568278) index="0" unique_id=1037861283]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.040542603, 0)

@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://b3gk8e4hpan5i"]
+
+[ext_resource type="Material" uid="uid://dawy8k3uej2ev" path="res://Stylized_Water_Shader_for_Godot_by_ithappy/water/water.tres" id="1_jbd7x"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xc3wn"]
+
+[node name="CUBE" type="Node3D" unique_id=984293671]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1443834341]
+transform = Transform3D(3166.2268, 0, 0, 0, 1.0000008, 0, 0, 0, 5332.691, -13.321022, 112.80297, 1.7969589)
+material_override = ExtResource("1_jbd7x")
+mesh = SubResource("BoxMesh_xc3wn")

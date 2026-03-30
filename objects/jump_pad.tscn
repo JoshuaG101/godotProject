@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://7e7soa6wycep"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4metj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_526ql"]
+
+[node name="jumpPad" type="Node3D" unique_id=27093313]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=643484108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5098604, 0)
+mesh = SubResource("BoxMesh_4metj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1482000543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5106847, 0)
+shape = SubResource("BoxShape3D_526ql")

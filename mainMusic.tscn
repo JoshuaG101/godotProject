@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bdbrc6ajhm41s"]
+
+[ext_resource type="AudioStream" uid="uid://dmks4qkac8022" path="res://music/10. Delfino Plaza.mp3" id="1_mren8"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" unique_id=644531925]
+stream = ExtResource("1_mren8")
+autoplay = true

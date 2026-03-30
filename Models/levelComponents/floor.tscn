@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bylp2tvf6hcn4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ryoud"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oj3tl"]
+next_pass = SubResource("ShaderMaterial_ryoud")
+albedo_color = Color(1, 0.7489104, 0.38541538, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_chol6"]
+material = SubResource("StandardMaterial3D_oj3tl")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ryoud"]
+
+[node name="floor" type="StaticBody3D" unique_id=1329055754]
+transform = Transform3D(1, 0, 0, 0, 1.9669747, 0, 0, 0, 1, 0, 0.063557625, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=294018186]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
+mesh = SubResource("BoxMesh_chol6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=194360415]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -0.049099103, 0)
+shape = SubResource("BoxShape3D_ryoud")

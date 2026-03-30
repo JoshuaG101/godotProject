@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bl5mqjrgu5my7"]
+
+[ext_resource type="Script" uid="uid://ds7rdj4gpuw5n" path="res://objects/jumpPad.gd" id="1_o65lo"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_e5tgy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hbmhx"]
+
+[node name="jumpPad" type="Area3D" unique_id=386462213]
+collision_layer = 0
+script = ExtResource("1_o65lo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=359787543]
+mesh = SubResource("BoxMesh_e5tgy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1487364749]
+shape = SubResource("BoxShape3D_hbmhx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

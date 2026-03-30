@@ -1,0 +1,51 @@
+[gd_resource type="Environment" format=3 uid="uid://bkyjfmhbioxlv"]
+
+[ext_resource type="Shader" uid="uid://bk4h2fbwftxks" path="res://Models/levelComponents/sky.gdshader" id="1_l23v2"]
+[ext_resource type="Texture2D" uid="uid://d1msupyvjeen2" path="res://Models/levelComponents/maxresdefault.jpg" id="2_m0dnr"]
+[ext_resource type="Texture2D" uid="uid://dgp4sc8kelf1i" path="res://new_noise_texture_2d.tres" id="3_5xwjv"]
+
+[sub_resource type="Curve" id="Curve_r4grq"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.1042471, 1), 0.0, 0.0, 0, 0, Vector2(0.8532818, 0.7362012), -1.0787975, -1.0787975, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_8tl7h"]
+curve = SubResource("Curve_r4grq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_462bn"]
+shader = ExtResource("1_l23v2")
+shader_parameter/cloud_shape_sampler = ExtResource("3_5xwjv")
+shader_parameter/cloud_noise_sampler = ExtResource("3_5xwjv")
+shader_parameter/cloud_curves = SubResource("CurveTexture_8tl7h")
+shader_parameter/clouds_samples = 32
+shader_parameter/shadow_sample = 4
+shader_parameter/clouds_density = 0.40000000596048
+shader_parameter/clouds_scale = 0.70000000298024
+shader_parameter/clouds_smoothness = 0.10000000149012
+shader_parameter/clouds_light_color = Color(0.39688927, 0.39688927, 0.39688924, 1)
+shader_parameter/clouds_shadow_intensity = 1.0
+shader_parameter/high_clouds_sampler = ExtResource("3_5xwjv")
+shader_parameter/high_clouds_density = 0.20000000298024
+shader_parameter/top_color = Color(0.67058825, 0.5882353, 1, 1)
+shader_parameter/bottom_color = Color(0.77114487, 0, 0.29035726, 1)
+shader_parameter/sun_scatter = Color(0, 0.45812458, 0.14642689, 1)
+shader_parameter/astro_tint = Color(0.90588236, 0.7882353, 0.627451, 1)
+shader_parameter/astro_sampler = ExtResource("2_m0dnr")
+shader_parameter/astro_scale = 10.0
+shader_parameter/astro_intensity = 3.0
+shader_parameter/stars_intensity = 0.0
+shader_parameter/shooting_stars_intensity = 0.0
+shader_parameter/shooting_star_tint = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_cd0cg"]
+sky_material = SubResource("ShaderMaterial_462bn")
+radiance_size = 2
+
+[resource]
+background_mode = 2
+background_energy_multiplier = 2.73
+sky = SubResource("Sky_cd0cg")
+ambient_light_color = Color(0.16627818, 0.0194274, 0.009819702, 1)
+ambient_light_sky_contribution = 0.01
+ambient_light_energy = 3.04
+adjustment_enabled = true
+adjustment_saturation = 1.5

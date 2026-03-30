@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b305loks33hmj"]
+
+[ext_resource type="PackedScene" uid="uid://c4q6ix2ieut72" path="res://objects/palmTree.fbx" id="1_48p2k"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jt8ij"]
+radius = 1.4033203
+height = 13.858032
+
+[node name="palmTree" unique_id=1443864193 instance=ExtResource("1_48p2k")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1" unique_id=465976985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065280914, 5.118103, -0.36607456)
+shape = SubResource("CapsuleShape3D_jt8ij")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ci0i6wwvgxbrh"]
+
+[ext_resource type="AudioStream" uid="uid://dbea4y352o61a" path="res://music/freesound_community-sea-and-seagull-wave-5932.mp3" id="1_01cpp"]
+
+[node name="Ocean" type="AudioStreamPlayer3D" unique_id=1439200788]
+stream = ExtResource("1_01cpp")

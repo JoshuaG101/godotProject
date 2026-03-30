@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dmks4qkac8022"
+path="res://.godot/imported/10. Delfino Plaza.mp3-da98f6e446cdb785194605bf6baed805.mp3str"
+
+[deps]
+
+source_file="res://music/10. Delfino Plaza.mp3"
+dest_files=["res://.godot/imported/10. Delfino Plaza.mp3-da98f6e446cdb785194605bf6baed805.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
