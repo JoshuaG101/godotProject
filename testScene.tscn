@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://buayb7rxc3nxi"]
 
-[ext_resource type="PackedScene" uid="uid://callt40l2nsen" path="res://Quakelike-Controller/QuakelikeController/player.tscn" id="1_2atia"]
+[ext_resource type="PackedScene" uid="uid://callt40l2nsen" path="res://QuakelikeController/player.tscn" id="1_2atia"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2atia"]
 

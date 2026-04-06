@@ -156,21 +156,35 @@ func _physics_process(delta : float) -> void:
 		jumpCooldownTimer -= delta
 			
 	if Input.is_action_just_pressed("jump") or jumpQueued:
-		var can_air_jump = (currentJumps < maxJumps) and (jumpCooldownTimer <= 0.0)
-		if currentJumps == 0 and not is_on_floor and not canJump:
-			currentJumps = 1
-			can_air_jump = (currentJumps < maxJumps) and (jumpCooldownTimer <= 0.0)
-		if canJump or can_air_jump:
-			canJump = false
-			hasJumped = true
-			jumpQueued = false
-			currentJumps += 1
-			jumpCooldownTimer = jumpCooldown
-			emit_signal("justJumped")
+		if is_on_wall_only() and not is_on_floor() and !grappleHook.isLaunched():
+			performWallJump()
+		else:
+			var can_air_jump = (currentJumps < maxJumps) and (jumpCooldownTimer <= 0.0)
+			if currentJumps == 0 and not is_on_floor and not canJump:
+				currentJumps = 1
+				can_air_jump = (currentJumps < maxJumps) and (jumpCooldownTimer <= 0.0)
+			if canJump or can_air_jump:
+				canJump = false
+				hasJumped = true
+				jumpQueued = false
+				currentJumps += 1
+				jumpCooldownTimer = jumpCooldown
+				emit_signal("justJumped")
 			
 			if currentState != MOVESTATES.AIR:
 				changeState(MOVESTATES.AIR)
 
+func performWallJump() -> void:
+	var wall_normal = get_wall_normal()
+	velocity = (wall_normal * wallJumpPushForce) + (Vector3.UP * wallJumpUpForce)
+	gravity_vec = Vector3.ZERO
+	
+	jumpQueued = false
+	currentJumps = 1
+	jumpCooldownTimer = jumpCooldown
+	changeState(MOVESTATES.AIR)
+	emit_signal("justJumped")
+	
 func ground(delta : float) -> void:
 	canDash = true
 	isCrouching = handleCrouch(delta)
