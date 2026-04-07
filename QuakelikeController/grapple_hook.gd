@@ -1,12 +1,11 @@
-"extends Node
+extends Node
 class_name GrappleHook
 
 #Grappling
-@onready var player: PlayerMovement = $".."
 @export var ray : RayCast3D
 var launched = false
 var target : Vector3
-
+var player: PlayerMovement
 var restLength = 5.0
 @export var maxRestFraction = 0.9
 @export var minRestFraction = 0.4
@@ -20,8 +19,13 @@ var restLength = 5.0
 #func _ready() -> void:
 	#crosshair.update_dynamic_offset(currentOffset)
 
-
+func equip_to(new_player: PlayerMovement) -> void:
+	player = new_player
+	
 func _physics_process(delta: float) -> void:
+	if player == null:
+		return
+	
 	if Input.is_action_just_pressed("shoot") and !launched:
 		launch()
 	
@@ -32,6 +36,9 @@ func _physics_process(delta: float) -> void:
 		handleGrapple(delta)
 
 func _process(delta: float) -> void:
+	if player == null:
+		return
+		
 	handleRope()
 	#if ray.is_colliding():
 		#currentOffset = lerp(currentOffset, 0.001, crosshairLerpSpeed * delta)
@@ -48,7 +55,7 @@ func launch() -> void:
 		restLength = player.global_position.distance_to(target) * maxRestFraction
 		restLengthCurve.set_targets(player.global_position.distance_to(target) * minRestFraction, restLength)
 		restLengthCurve.start()
-		print("hooked")
+
 
 func retract() -> void:
 	launched = false
@@ -72,7 +79,7 @@ func handleGrapple(delta : float) -> void:
 	
 	var force = target_dir * magnitude
 	force = lerp(force, player.velocity, 0.1)
-	#print(magnitude, " , ", restLength)
+	print(magnitude, " , ", restLength)
 	player.velocity += force * delta
 
 func handleRope() -> void:
@@ -84,4 +91,3 @@ func handleRope() -> void:
 	rope.look_at(target)
 	rope.scale = Vector3(1, 1, player.global_position.distance_to(target))
 	
-"

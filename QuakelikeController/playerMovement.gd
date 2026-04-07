@@ -14,8 +14,7 @@ var gravity_vec : Vector3
 @onready var head : Node3D = $Head
 @onready var cameraHolder : Node3D = $Head/CameraHolder
 @onready var collider : CollisionShape3D = $CollisionShape3D
-@onready var grappleHook: GrappleHook = $GrappleHook
-
+var grappleHook: GrappleHook = null # Starts empty, will be filled by the powerup
 
 enum MOVESTATES {GROUND, AIR, SLIDING, DASHING}
 var currentState : MOVESTATES = MOVESTATES.AIR
@@ -49,6 +48,8 @@ var currentJumps : int = 0
 const jumpCooldown : float = 0.2
 var jumpCooldownTimer : float = 0.0
 
+#Menu
+@export var pause_menu : Control
 #Crouching
 @onready var fullHeight : float = collider.shape.height
 @onready var crouchHeight : float = fullHeight / 2.0
@@ -138,6 +139,7 @@ func _process(delta : float) -> void:
 	realCamera.fov = lerp(realCamera.fov, targetFov, fovLerpSpeed * delta)
 
 
+
 func _physics_process(delta : float) -> void:
 	match currentState:
 		MOVESTATES.GROUND:
@@ -156,7 +158,7 @@ func _physics_process(delta : float) -> void:
 		jumpCooldownTimer -= delta
 			
 	if Input.is_action_just_pressed("jump") or jumpQueued:
-		if is_on_wall_only() and not is_on_floor() and !grappleHook.isLaunched():
+		if is_on_wall_only() and not is_on_floor() and !is_grappling():
 			performWallJump()
 		else:
 			var can_air_jump = (currentJumps < maxJumps) and (jumpCooldownTimer <= 0.0)
@@ -251,7 +253,7 @@ func air(delta : float) -> void:
 	move(delta, airAccel, airDrag)
 
 	
-	if is_on_floor() and !grappleHook.isLaunched():
+	if is_on_floor() and !is_grappling():
 		canDash = true
 		currentJumps = 0
 		if isCrouching and velocity.length() > startSlideThresh:
@@ -339,6 +341,8 @@ func applyForce(force : Vector3) -> void:
 	velocity += force
 
 
+		
+	
 func slowMovement(amount : float) -> void:
 	velocity *= amount
 
@@ -404,3 +408,8 @@ func getHorizontalAngle(vec1 : Vector3, vec2 : Vector3) -> float:
 	vec1.y = 0
 	vec2.y = 0
 	return abs(vec1.angle_to(vec2))
+	
+func is_grappling() -> bool:
+	if grappleHook != null:
+		return grappleHook.isLaunched()
+	return false

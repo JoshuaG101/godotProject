@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://g4woadabn7p2"]
+
+[ext_resource type="Script" uid="uid://h3wvfavtlsu3" path="res://PunchObject.gd" id="1_eblas"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8dioy"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_eblas"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[node name="PunchObject" type="Area3D" unique_id=838503455]
+script = ExtResource("1_eblas")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1720822739]
+transform = Transform3D(1, 0, 0, 0, 2.677867, 0, 0, 0, 1, 0, 1.5462036, 0)
+mesh = SubResource("BoxMesh_8dioy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1072692948]
+transform = Transform3D(1, 0, 0, 0, 2.677867, 0, 0, 0, 1, 0, 1.5462036, 0)
+shape = SubResource("ConcavePolygonShape3D_eblas")
