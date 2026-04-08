@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bl5mqjrgu5my7" path="res://objects/jumpPad.tscn" id="16_30sg5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_182lp"]
-size = Vector3(133.92212, 5.5322266, 181.07562)
+size = Vector3(824.5474, 5.5322266, 925.39435)
 
 [node name="FirstWorld" type="Node3D" unique_id=1506120519]
 script = ExtResource("1_182lp")
@@ -52,7 +52,7 @@ metadata/_editor_floor_ = Vector3(0, 0, 0)
 collision_layer = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="fallZone" unique_id=2063292501]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.168867, -9.700936, -27.287655)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.055466, -9.700936, -177.68611)
 shape = SubResource("BoxShape3D_182lp")
 
 [node name="Coins" type="Node3D" parent="." unique_id=282864825]
@@ -80,7 +80,7 @@ hud = NodePath("../../HUD")
 [node name="HUD" parent="." unique_id=728126613 instance=ExtResource("10_ekqao")]
 
 [node name="CUBE" parent="." unique_id=984293671 instance=ExtResource("12_1fvhm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.99066, -153.53827, 7.404846)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.04632, -153.17291, 7.300812)
 
 [node name="CUBE" parent="CUBE" unique_id=1671312317 instance=ExtResource("12_1fvhm")]
 transform = Transform3D(0.06011504, 0, 0, 0, 1, 0, 0, 0, 0.03833966, 42.529495, 74.947876, -109.72923)
