@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://buayb7rxc3nxi"]
+
+[ext_resource type="PackedScene" uid="uid://callt40l2nsen" path="res://QuakelikeController/player.tscn" id="1_2atia"]
+[ext_resource type="PackedScene" uid="uid://c201kqm66rjry" path="res://pause_menu.tscn" id="2_vixnb"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2atia"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2atia"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_vixnb"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[sub_resource type="Environment" id="Environment_2atia"]
+background_mode = 1
+background_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vixnb"]
+albedo_color = Color(0.15630811, 0.12964958, 0.07900304, 1)
+
+[node name="TestLevel" type="Node3D" unique_id=310235085]
+
+[node name="Player" parent="." unique_id=130040573 node_paths=PackedStringArray("pause_menu") instance=ExtResource("1_2atia")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.955473, 7.0753536)
+pause_menu = NodePath("../PauseMenu")
+dashSpeed = 20.0
+dashDuration = 0.3
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1287903018]
+transform = Transform3D(1, 0, 0, 0, -0.8558611, -0.5172058, 0, 0.5172058, -0.8558611, 0, 20.028778, 0)
+
+[node name="Node3D" type="Node3D" parent="." unique_id=2101637015]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=387022750]
+collision_layer = 2
+collision_mask = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=363842146]
+transform = Transform3D(29.13785, 0, 0, 0, 0.9999998, 0, 0, 0, 81.39086, 0, 0, 0)
+layers = 3
+mesh = SubResource("PlaneMesh_2atia")
+surface_material_override/0 = SubResource("ShaderMaterial_2atia")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1490552863]
+transform = Transform3D(29.13785, 0, 0, 0, 0.9999998, 0, 0, 0, 81.39086, 0, 0, 0)
+shape = SubResource("ConcavePolygonShape3D_vixnb")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1706726272]
+environment = SubResource("Environment_2atia")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="." unique_id=62668779]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -28.66294, 29.073076, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2" unique_id=1112158913]
+transform = Transform3D(29.13785, 0, 0, 0, 0.9999998, 0, 0, 0, 85.644066, 0, 0, 0)
+layers = 3
+material_override = SubResource("StandardMaterial3D_vixnb")
+mesh = SubResource("PlaneMesh_2atia")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2" unique_id=494548903]
+transform = Transform3D(29.13785, 0, 0, 0, 0.9999998, 0, 0, 0, 85.644066, 0, 0, 0)
+shape = SubResource("ConcavePolygonShape3D_vixnb")
+
+[node name="PauseMenu" parent="." unique_id=1522597411 instance=ExtResource("2_vixnb")]
+process_mode = 3

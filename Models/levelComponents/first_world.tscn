@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dseo66lpgvas0"]
 
 [ext_resource type="Script" uid="uid://7sfasdy01mcb" path="res://Models/levelComponents/first_world.gd" id="1_182lp"]
-[ext_resource type="PackedScene" uid="uid://dn5u246ekicpt" path="res://objects/Steve.tscn" id="2_xsay1"]
 [ext_resource type="PackedScene" uid="uid://c4q6ix2ieut72" path="res://objects/palmTree.fbx" id="4_cm2em"]
 [ext_resource type="Environment" uid="uid://bkyjfmhbioxlv" path="res://Resources/Firstworld.tres" id="4_me7me"]
 [ext_resource type="PackedScene" uid="uid://clvnt5pi12ceg" path="res://objects/beachChair.fbx" id="8_182lp"]
