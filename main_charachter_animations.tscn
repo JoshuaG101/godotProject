@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://dxu3264p12tgc" path="res://mainCharacter/mainCharachterAnimations.glb" id="1_qnogd"]
 
-[node name="mainCharachterAnimations" unique_id=1180224760 instance=ExtResource("1_qnogd")]
+[node name="mainCharachterAnimations" unique_id=1826272778 instance=ExtResource("1_qnogd")]
 
-[node name="Skeleton3D" parent="Armature" parent_id_path=PackedInt32Array(1139360040) index="0" unique_id=746619232]
+[node name="Skeleton3D" parent="Armature" parent_id_path=PackedInt32Array(1966376018) index="0" unique_id=346092774]
 bones/0/position = Vector3(0.31976587, -25.994879, -75.353226)
 bones/0/rotation = Quaternion(-0.8668099, -0.035992503, 0.027735686, 0.49656427)
 bones/1/rotation = Quaternion(0.15010856, 0.017551508, 0.01468938, 0.9884046)
