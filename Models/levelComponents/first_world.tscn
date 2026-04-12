@@ -11,14 +11,12 @@
 [ext_resource type="PackedScene" uid="uid://f6ag6dlovgwd" path="res://objects/evilSteve.tscn" id="10_wgu01"]
 [ext_resource type="PackedScene" uid="uid://b3gk8e4hpan5i" path="res://objects/cube.tscn" id="12_1fvhm"]
 [ext_resource type="PackedScene" uid="uid://ci0i6wwvgxbrh" path="res://Models/levelComponents/Ocean.tscn" id="13_35xpt"]
-[ext_resource type="PackedScene" uid="uid://cg6c1mhllr8dn" path="res://Models/levelComponents/delete_this_stage1.tscn" id="13_ljjh3"]
-[ext_resource type="PackedScene" uid="uid://benxx0oox104l" path="res://Models/levelComponents/level1ground.tscn" id="14_b4fye"]
+[ext_resource type="PackedScene" uid="uid://dgphoo7k665pu" path="res://resort.tscn" id="14_rbokt"]
+[ext_resource type="PackedScene" uid="uid://dtnhh6xukyau8" path="res://deleteThis/bomb-bomb-battlefield.glb" id="15_sanch"]
 [ext_resource type="PackedScene" uid="uid://bl5mqjrgu5my7" path="res://objects/jumpPad.tscn" id="16_30sg5"]
-[ext_resource type="PackedScene" uid="uid://callt40l2nsen" path="res://Quakelike-Controller/QuakelikeController/player.tscn" id="16_cyxic"]
-[ext_resource type="PackedScene" uid="uid://dmn7ne476t8u7" path="res://Models/levelComponents/japanese_alley.tscn" id="16_x5lbp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_182lp"]
-size = Vector3(133.92212, 5.5322266, 181.07562)
+size = Vector3(824.5474, 5.5322266, 925.39435)
 
 [node name="FirstWorld" type="Node3D" unique_id=1506120519]
 script = ExtResource("1_182lp")
@@ -27,7 +25,7 @@ script = ExtResource("1_182lp")
 transform = Transform3D(0.99973935, 0.02282691, 0, -0.02282691, 0.99973935, 0, 0, 0, 1, 9.364457, 1.2153646, 0.967124)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=241299785]
-transform = Transform3D(1, 0, 0, 0, 0.6285606, 0.77776057, 0, -0.77776057, 0.6285606, -11.564039, 17.290346, 13.891228)
+transform = Transform3D(-0.20211719, -0.7578374, -0.62034786, -0.89668125, -0.11152862, 0.42839718, -0.3938418, 0.6428408, -0.6569968, -16.888079, 101.43417, 26.30687)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1825713051]
 environment = ExtResource("4_me7me")
@@ -36,7 +34,7 @@ environment = ExtResource("4_me7me")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.895603, -0.58161193, -20.447826)
 
 [node name="medivalHouses" parent="." unique_id=358928662 instance=ExtResource("9_ekqao")]
-transform = Transform3D(-0.78942704, 0, 0.6138444, 0, 1, 0, -0.6138444, 0, -0.78942704, -34.925354, 1.9651551, -32.921165)
+transform = Transform3D(-0.18295628, 0, 0.98312104, 0, 1, 0, -0.98312104, 0, -0.18295628, -37.50414, 1.9651551, -22.917906)
 
 [node name="palmTree" parent="." unique_id=1443864193 instance=ExtResource("4_cm2em")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.659622, 2.7968063, -17.747368)
@@ -54,7 +52,7 @@ metadata/_editor_floor_ = Vector3(0, 0, 0)
 collision_layer = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="fallZone" unique_id=2063292501]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.168867, -9.700936, -27.287655)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.055466, -9.700936, -177.68611)
 shape = SubResource("BoxShape3D_182lp")
 
 [node name="Coins" type="Node3D" parent="." unique_id=282864825]
@@ -82,10 +80,10 @@ hud = NodePath("../../HUD")
 [node name="HUD" parent="." unique_id=728126613 instance=ExtResource("10_ekqao")]
 
 [node name="CUBE" parent="." unique_id=984293671 instance=ExtResource("12_1fvhm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, -155, 7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.04632, -153.17291, 7.300812)
 
-[node name="DeleteThis" parent="CUBE" unique_id=1055054024 instance=ExtResource("13_ljjh3")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 199, 155, 2.6663947e-06)
+[node name="CUBE" parent="CUBE" unique_id=1671312317 instance=ExtResource("12_1fvhm")]
+transform = Transform3D(0.06011504, 0, 0, 0, 1, 0, 0, 0, 0.03833966, 42.529495, 74.947876, -109.72923)
 
 [node name="Ocean" parent="." unique_id=1439200788 instance=ExtResource("13_35xpt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 7, -54)
@@ -93,14 +91,20 @@ volume_db = 3.943
 unit_size = 6.9
 autoplay = true
 
-[node name="level2Floor" parent="." unique_id=288306915 instance=ExtResource("14_b4fye")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -240, -19, 6.4692854e-06)
-
-[node name="japaneseAlley" parent="." unique_id=586199257 instance=ExtResource("16_x5lbp")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 3.8146973e-06, -1, -51)
-
 [node name="jumpPad" parent="." unique_id=386462213 instance=ExtResource("16_30sg5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 2, -0.24716902)
 
-[node name="Player" parent="." unique_id=130040573 instance=ExtResource("16_cyxic")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5760672, -6.6263313)
+[node name="jumpPad" parent="jumpPad" unique_id=347053310 instance=ExtResource("16_30sg5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20777893, 8.873625, -6.0847974)
+
+[node name="jumpPad" parent="jumpPad/jumpPad" unique_id=859443098 instance=ExtResource("16_30sg5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.374279, 2, -6.9018245)
+
+[node name="resort2" parent="." unique_id=1170059553 instance=ExtResource("14_rbokt")]
+transform = Transform3D(0.9991446, 0, -0.04135251, 0, 1, 0, 0.04135251, 0, 0.9991446, -3.3617802, 35.127144, -241.21289)
+
+[node name="Steve" parent="." unique_id=638694537 instance=ExtResource("2_xsay1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.753048, 21.8404, 120.15702)
+
+[node name="bomb-bomb-battlefield" parent="." unique_id=365026140 instance=ExtResource("15_sanch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31518936, 8, 91.2657)
