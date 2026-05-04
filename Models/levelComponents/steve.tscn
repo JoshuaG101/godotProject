@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://b7lrul28j1cpu"]
-
-[ext_resource type="PackedScene" uid="uid://c72kkinqw33hn" path="res://Models/levelComponents/Floor.fbx" id="1_bh3ft"]
-
-[node name="Node3D" type="Node3D" unique_id=739391919]
-
-[node name="Floor" parent="." unique_id=1395933479 instance=ExtResource("1_bh3ft")]

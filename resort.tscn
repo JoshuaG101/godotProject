@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://dgphoo7k665pu"]
-
-[ext_resource type="PackedScene" uid="uid://cbtcy3lv8xklj" path="res://resort.glb" id="1_60fqo"]
-
-[node name="resort2" unique_id=683244580 instance=ExtResource("1_60fqo")]
-
-[node name="@StaticBody3D@36286" parent="." index="1" unique_id=587741573]
-collision_layer = 2
-collision_mask = 2

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://uma8y8xn1ca5"]
+
+[ext_resource type="PackedScene" uid="uid://b2eyapsvlphw2" path="res://levelcomponents/level1.glb" id="1_3iqpe"]
+
+[node name="level1" unique_id=2068973540 instance=ExtResource("1_3iqpe")]
+
+[node name="StaticBody3D" parent="level1" parent_id_path=PackedInt32Array(1813544461) index="0" unique_id=892135948]
+collision_layer = 2

@@ -1,0 +1,44 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://3ai1cx5rni8v"
+path.s3tc="res://.godot/imported/level1_stone_bricks_wall_02_normal_dx_1k.png-c7510413cfd0d8cbd06f16a5465a1472.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "a20e3505308941a9e941852f614e4566"
+}
+
+[deps]
+
+source_file="res://levelcomponents/level1_stone_bricks_wall_02_normal_dx_1k.png"
+dest_files=["res://.godot/imported/level1_stone_bricks_wall_02_normal_dx_1k.png-c7510413cfd0d8cbd06f16a5465a1472.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
+compress/hdr_compression=1
+compress/normal_map=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal="res://level/level1_stone_bricks_wall_02_normal_dx_1k.png"
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

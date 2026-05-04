@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://bija28ely3dax"]
+
+[ext_resource type="PackedScene" uid="uid://uma8y8xn1ca5" path="res://levelcomponents/level_1mesh.tscn" id="1_pdtm5"]
+[ext_resource type="PackedScene" uid="uid://dn5u246ekicpt" path="res://objects/Steve.tscn" id="2_b3oru"]
+[ext_resource type="PackedScene" uid="uid://dskrq3je33521" path="res://bgsfx/confetti.tscn" id="3_61w3m"]
+[ext_resource type="PackedScene" uid="uid://1qocc34k7rnk" path="res://bgsfx/firework.tscn" id="4_pdpul"]
+[ext_resource type="PackedScene" uid="uid://cny1bfmxvenkw" path="res://bgsfx/confetti cannon.tscn" id="5_8hd6v"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_045es"]
+sky_top_color = Color(0.0041653765, 0.0648424, 0.06671016, 1)
+sky_horizon_color = Color(0.24261892, 0.0796982, 0.0050183525, 1)
+sky_cover_modulate = Color(0.29954746, 0.29954746, 0.29954743, 1)
+ground_bottom_color = Color(1.9853935e-07, 0.16909078, 0.13620466, 1)
+ground_horizon_color = Color(0.08956834, 0.19970345, 0.29674944, 1)
+
+[sub_resource type="Sky" id="Sky_omn1t"]
+sky_material = SubResource("ProceduralSkyMaterial_045es")
+
+[sub_resource type="Environment" id="Environment_lf3p4"]
+background_mode = 2
+background_energy_multiplier = 1.2
+sky = SubResource("Sky_omn1t")
+glow_enabled = true
+
+[node name="Node3D" type="Node3D" unique_id=228611558]
+
+[node name="level1_Mesh" parent="." unique_id=2068973540 instance=ExtResource("1_pdtm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0341797, 1.4386902, 21.185745)
+
+[node name="Steve" parent="." unique_id=638694537 instance=ExtResource("2_b3oru")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -267.5823, 58.232147, 369.50043)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1751051846]
+transform = Transform3D(0.01525051, 0.9990978, -0.039635874, -0.35877708, 0.04246858, 0.93245673, 0.9332987, 1.7384044e-09, 0.3591011, -7.773488, 141.62924, -29.902548)
+light_energy = 0.2
+
+[node name="sfx" type="Node" parent="." unique_id=840847833]
+
+[node name="confetti" parent="sfx" unique_id=1615260393 instance=ExtResource("3_61w3m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -285.60748, 51.27105, 634.66736)
+
+[node name="firework2" parent="sfx" unique_id=1747377330 instance=ExtResource("4_pdpul")]
+transform = Transform3D(-0.9982367, 0, 0.059358645, 0, 1, 0, -0.059358645, 0, -0.9982367, -207.79945, 318.2693, 1117.1111)
+
+[node name="firework" parent="sfx" unique_id=866710718 instance=ExtResource("4_pdpul")]
+transform = Transform3D(-0.9982367, 0, 0.059358645, 0, 1, 0, -0.059358645, 0, -0.9982367, -477.40295, 117.16217, 1101.0795)
+
+[node name="confetti_cannon" parent="sfx" unique_id=1060187265 instance=ExtResource("5_8hd6v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -186.12775, 68.95747, 299.41925)
+
+[node name="confetti_cannon2" parent="sfx" unique_id=1368333203 instance=ExtResource("5_8hd6v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -320.3439, 74.72061, 328.84494)
+
+[node name="confetti_cannon3" parent="sfx" unique_id=1292634639 instance=ExtResource("5_8hd6v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -184.97989, 68.90164, 538.45795)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=568652635]
+environment = SubResource("Environment_lf3p4")

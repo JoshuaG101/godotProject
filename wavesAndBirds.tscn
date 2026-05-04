@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://s3jf7lruays8"]
-
-[ext_resource type="AudioStream" uid="uid://dbea4y352o61a" path="res://music/freesound_community-sea-and-seagull-wave-5932.mp3" id="1_bagqp"]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" unique_id=408606791]
-stream = ExtResource("1_bagqp")
-volume_db = -3.49
-autoplay = true

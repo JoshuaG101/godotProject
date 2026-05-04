@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b3gk8e4hpan5i"]
 
-[ext_resource type="Material" uid="uid://dawy8k3uej2ev" path="res://Stylized_Water_Shader_for_Godot_by_ithappy/water/water.tres" id="1_jbd7x"]
+[ext_resource type="Material" uid="uid://dawy8k3uej2ev" path="res://shader/Stylized_Water_Shader_for_Godot_by_ithappy/water/water.tres" id="1_jbd7x"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_xc3wn"]
 
