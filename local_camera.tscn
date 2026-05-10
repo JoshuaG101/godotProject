@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bwhqfd4btgnl8"]
+
+[ext_resource type="Script" uid="uid://c2kpnoiyi27d8" path="res://local_camera.gd" id="1_il154"]
+[ext_resource type="Script" uid="uid://djfxrxvwjudc3" path="res://locked_camera.gd" id="2_2urwo"]
+[ext_resource type="Script" uid="uid://coxqmmvocil2k" path="res://free_camera.gd" id="3_85gxb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_il154"]
+albedo_color = Color(0.22730166, 0.43266624, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2urwo"]
+albedo_color = Color(0.5639157, 0.3079233, 3.85046e-07, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85gxb"]
+albedo_color = Color(0.85544276, 0, 0.068257794, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_omfxc"]
+albedo_color = Color(0.13205856, 0.43036446, 1, 1)
+
+[node name="LocalCamera" type="Node3D" unique_id=1658583973]
+script = ExtResource("1_il154")
+
+[node name="LockedCamera" type="Node3D" parent="." unique_id=951313104]
+script = ExtResource("2_2urwo")
+
+[node name="FreeCamera" type="Node3D" parent="." unique_id=1582842454]
+script = ExtResource("3_85gxb")
+
+[node name="CameraMount" type="Node3D" parent="." unique_id=670851577]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CameraMount" unique_id=1402568095]
+material_override = SubResource("StandardMaterial3D_il154")
+
+[node name="CameraNest" type="Node3D" parent="." unique_id=1609776241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5194006, 1.9059334, 4.5)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CameraNest" unique_id=411110835]
+material_override = SubResource("StandardMaterial3D_2urwo")
+
+[node name="FocusPoint" type="Node3D" parent="." unique_id=1486320725]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FocusPoint" unique_id=1353516010]
+material_override = SubResource("StandardMaterial3D_85gxb")
+
+[node name="PlayerCamera" type="Camera3D" parent="." unique_id=1400441542]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PlayerCamera" unique_id=1151748224]
+material_override = SubResource("StandardMaterial3D_omfxc")
