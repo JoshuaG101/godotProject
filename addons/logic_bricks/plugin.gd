@@ -1,7 +1,6 @@
 @tool
 extends EditorPlugin
 
-const LogicBrickPanel = preload("res://addons/logic_bricks/ui/logic_brick_panel.gd")
 const LogicBrickManager = preload("res://addons/logic_bricks/core/logic_brick_manager.gd")
 
 var panel: Control
@@ -14,7 +13,6 @@ func _enter_tree() -> void:
 	manager.editor_interface = get_editor_interface()  # FIX: Pass editor interface to manager
 	
 	# Create the panel programmatically
-	panel = LogicBrickPanel.new()
 	panel.manager = manager
 	panel.editor_interface = get_editor_interface()
 	panel.plugin = self

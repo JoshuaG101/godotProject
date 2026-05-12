@@ -55,6 +55,9 @@ func throw(force: Vector3):
 func _on_top_checker_body_entered(body: Node3D) -> void:
 	if body.has_method(\"bounce\"):
 		body.bounce()
+		
+func _ready():
+	add_to_group(\"enemy\")
 "
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwo6d"]

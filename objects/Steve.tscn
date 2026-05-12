@@ -1,82 +1,97 @@
 [gd_scene format=4 uid="uid://dn5u246ekicpt"]
 
 [ext_resource type="Texture2D" uid="uid://c404v1276k1m6" path="res://mainCharacter/textures/Gemini_Generated_Image_yewoa4yewoa4yewo.png" id="2_gubtu"]
-[ext_resource type="PackedScene" uid="uid://bwhqfd4btgnl8" path="res://local_camera.tscn" id="3_gubtu"]
+[ext_resource type="Script" uid="uid://ecjipbvte4eb" path="res://objects/camera_mount.gd" id="3_gubtu"]
 [ext_resource type="Texture2D" uid="uid://bo1tk48s7hbcp" path="res://mainCharacter/textures/Gemini_Generated_Image_htt2pshtt2pshtt2.png" id="3_iflv8"]
 
 [sub_resource type="GDScript" id="GDScript_58a12"]
 script/source = "extends CharacterBody3D
 
-@export var RUN_SPEED = 6.0
-@export var GRAVITY = 20.0
-@export var ANIM_BLEND_SPEED = 10.0
+## Configuration
+@export var RUN_SPEED := 6.0
+@export var GRAVITY := 20.0
 
-@onready var local_camera = $LocalCamera
-@onready var visuals = $Armature
-@onready var anim_player = $AnimationPlayer
+## Nodes
+@onready var camera_mount: Node3D = $Camera_mount
+@onready var visuals: Node3D = $Armature
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
 
-func _physics_process(delta):
-	# 1. Apply Gravity
+func _physics_process(delta: float) -> void:
+	# 1. Handle Gravity
 	if not is_on_floor():
 		velocity.y -= GRAVITY * delta
 	else:
 		velocity.y = 0
 
-	# 2. Get Input
-	var input_dir = Input.get_vector(\"left\", \"right\", \"up\", \"down\")
+	# 2. Get Movement Input
+	var input_dir := Input.get_vector(\"left\", \"right\", \"up\", \"down\")
 	
 	if input_dir != Vector2.ZERO:
-		var movement_velocity = calculate_soulslike_velocity(input_dir, delta)
+		var movement_dir = calculate_movement_direction(input_dir)
+		velocity.x = movement_dir.x * RUN_SPEED
+		velocity.z = movement_dir.z * RUN_SPEED
 		
-		velocity.x = movement_velocity.x
-		velocity.z = movement_velocity.z
-		
-		# 3. UPRIGHT LOOK LOGIC
-		var move_dir = Vector3(velocity.x, 0, velocity.z).normalized()
-		if move_dir.length() > 0.01:
-			# We ensure the target point is at Steve's current height (global_position.y)
-			var look_target = global_position + move_dir
+		# 3. Handle Visual Orientation
+		if camera_mount.locked_target:
+			var target_pos = camera_mount.locked_target.global_position
+			target_pos.y = global_position.y 
+			# Smoothly rotate to face enemy
+			var target_transform = visuals.global_transform.looking_at(target_pos, Vector3.UP)
+			visuals.global_transform = visuals.global_transform.interpolate_with(target_transform, delta * 15.0)
+		else:
+			var look_target = global_position + Vector3(velocity.x, 0, velocity.z)
 			visuals.look_at(look_target, Vector3.UP)
 		
+		# 4. Handle Animations
 		if anim_player.has_animation(\"Armature|run\"):
 			anim_player.play(\"Armature|run\", 0.2)
 	else:
 		velocity.x = move_toward(velocity.x, 0, RUN_SPEED)
 		velocity.z = move_toward(velocity.z, 0, RUN_SPEED)
 		
+		if camera_mount.locked_target:
+			var target_pos = camera_mount.locked_target.global_position
+			target_pos.y = global_position.y
+			visuals.look_at(target_pos, Vector3.UP)
+		
 		if anim_player.has_animation(\"idle\"):
 			anim_player.play(\"idle\", 0.3)
 
+	# 5. Apply Movement
 	move_and_slide()
 
-func calculate_soulslike_velocity(input: Vector2, delta: float) -> Vector3:
-	var center = local_camera.player_camera.global_position
-	center.y = global_position.y 
+func calculate_movement_direction(input: Vector2) -> Vector3:
+	var forward: Vector3
+	var right: Vector3
 	
-	var to_center = global_position.direction_to(center)
-	var dist = global_position.distance_to(center)
-	
-	if dist < 0.5: dist = 0.5
-	
-	var move_vec = Vector3.ZERO
-	
-	# --- DIRECTION FIX ---
-	# We use + to_center for \"Forward\" input (input.y < 0) to move AWAY from camera
-	# This aligns with Godot's ui_up usually being -1.0
-	move_vec += to_center * input.y * RUN_SPEED
-	
-	# Orbit (Left/Right)
-	if input.x != 0:
-		var d = (input.x * RUN_SPEED * delta)
-		var alpha = 2.0 * asin(clamp(d / (2.0 * dist), -1.0, 1.0))
+	if camera_mount.locked_target:
+		# --- CIRCULAR STRAFE LOGIC ---
+		# Vector pointing from player to enemy
+		var to_enemy = (camera_mount.locked_target.global_position - global_position).normalized()
+		to_enemy.y = 0 # Keep movement horizontal
 		
-		var radial_vec = global_position - center
-		var rotated_vec = radial_vec.rotated(Vector3.UP, -alpha)
+		# 'Forward' input moves us along the line to the enemy
+		forward = to_enemy 
+		# 'Right' input moves us perpendicular to that line (The Circle)
+		right = to_enemy.cross(Vector3.UP).normalized()
 		
-		var orbit_pos = center + rotated_vec
-		move_vec += (orbit_pos - global_position) / delta
+		# input.y is -1 for Up, +1 for Down. 
+		# Multiplying by -input.y makes 'Up' move TOWARD the enemy.
+		return (forward * -input.y + right * input.x).normalized()
+	else:
+		# --- STANDARD CAMERA RELATIVE LOGIC ---
+		var camera_basis: Basis = camera_mount.h_pivot.global_transform.basis
+		forward = camera_basis.z
+		right = camera_basis.x
 		
-	return move_vec.limit_length(RUN_SPEED)
+		forward.y = 0
+		right.y = 0
+		return (forward * input.y + right * input.x).normalized()
+
+## --- Combat / Utility Helpers ---
+
+func bounce():
+	velocity.y = 10.0
 "
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwo6d"]
@@ -15864,8 +15879,9 @@ _data = {
 &"Armature|weirdPose": SubResource("Animation_jj0j3")
 }
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_gubtu"]
+
 [node name="Steve" type="CharacterBody3D" unique_id=638694537]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 collision_mask = 30
 script = SubResource("GDScript_58a12")
 
@@ -15874,13 +15890,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029101372, 1.1242245, 0.01
 shape = SubResource("CapsuleShape3D_iwo6d")
 metadata/_edit_group_ = true
 
-[node name="LocalCamera" parent="." unique_id=1176261695 instance=ExtResource("3_gubtu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0181532, 0)
-
-[node name="CameraFocus" type="Node3D" parent="." unique_id=253884237]
-
 [node name="Armature" type="Node3D" parent="." unique_id=1043579526]
-transform = Transform3D(-0.0090140095, -7.549443e-08, 0.99995935, 3.5527135e-15, 1, 7.549749e-08, -0.99995935, 6.8053296e-10, -0.0090140095, 0, 0, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature" unique_id=1310854101]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
@@ -16438,3 +16449,18 @@ skeleton = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1654196035]
 libraries/ = SubResource("AnimationLibrary_womrg")
+
+[node name="Camera_mount" type="Node3D" parent="." unique_id=1930631954]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5831084, 0)
+script = ExtResource("3_gubtu")
+
+[node name="h" type="Node3D" parent="Camera_mount" unique_id=600233251]
+
+[node name="v" type="SpringArm3D" parent="Camera_mount/h" unique_id=744442783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+collision_mask = 16777215
+shape = SubResource("SphereShape3D_gubtu")
+spring_length = 3.0
+margin = 14.665
+
+[node name="Camera3D" type="Camera3D" parent="Camera_mount/h/v" unique_id=296319558]
