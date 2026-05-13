@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://uhmyetgoi5ln"]
+
+[ext_resource type="PackedScene" uid="uid://bqri1yifc225b" path="res://custom_health_bar.tscn" id="1_iywrq"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_vii3e"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bq16f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3uge5"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Healthbar" type="Node3D" unique_id=2101535388]
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1230356049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14058304, 0, 0)
+texture = SubResource("ViewportTexture_vii3e")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=2113367067]
+transparent_bg = true
+size = Vector2i(208, 48)
+
+[node name="CustomHealthBar" parent="SubViewport" unique_id=256753096 instance=ExtResource("1_iywrq")]
+anchors_preset = -1
+anchor_right = 0.030000001
+anchor_bottom = 0.014
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 159.76
+offset_bottom = 33.928
+scale = Vector2(1.005, 1)
+pivot_offset = Vector2(149.56119, 6)
+
+[node name="ProgressBar2" type="ProgressBar" parent="SubViewport/CustomHealthBar" unique_id=1932194533]
+show_behind_parent = true
+custom_minimum_size = Vector2(150, 10)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.008
+anchor_bottom = 1.0
+offset_right = -5.3048706
+scale = Vector2(1.0081792, 1.0057901)
+theme_override_styles/background = SubResource("StyleBoxEmpty_bq16f")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3uge5")
+show_percentage = false
+
+[node name="ResetVisibility" type="Timer" parent="SubViewport/CustomHealthBar/ProgressBar2" unique_id=716187663]

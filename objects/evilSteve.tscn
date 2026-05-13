@@ -1,5 +1,7 @@
 [gd_scene format=4 uid="uid://f6ag6dlovgwd"]
 
+[ext_resource type="PackedScene" uid="uid://uhmyetgoi5ln" path="res://healthbar.tscn" id="1_1km4g"]
+
 [sub_resource type="GDScript" id="GDScript_58a12"]
 script/source = "extends CharacterBody3D
 
@@ -2836,10 +2838,6 @@ _data = {
 &"slide": SubResource("Animation_ikgmo")
 }
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_6jgxw"]
-height = 0.35555267
-radius = 0.6958008
-
 [node name="evilSteve" type="CharacterBody3D" unique_id=638694537]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08113837, 0)
 collision_layer = 9
@@ -3096,25 +3094,5 @@ skeleton = NodePath("..")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=695813455]
 libraries/ = SubResource("AnimationLibrary_gubtu")
 
-[node name="RayCast3D" type="RayCast3D" parent="." unique_id=1851000303]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0113394, 0.03188324)
-collision_mask = 2
-hit_back_faces = false
-
-[node name="topChecker" type="Area3D" parent="." unique_id=600990984]
-collision_layer = 0
-
-[node name="collisionshape3d" type="CollisionShape3D" parent="topChecker" unique_id=100391091]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.035830975, 1.8104175, 0.034941554)
-shape = SubResource("CylinderShape3D_6jgxw")
-
-[node name="sideChecker" type="Area3D" parent="." unique_id=90775153]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0655648, 0)
-collision_layer = 0
-
-[node name="collision2shape3d" type="CollisionShape3D" parent="sideChecker" unique_id=1539036784]
-transform = Transform3D(0.99986726, -0.012496232, -0.010453517, 0.012495549, 0.9999219, -0.00013063976, 0.010454333, -1.4551915e-11, 0.99994534, 0, 1.8165863, 0)
-shape = SubResource("CylinderShape3D_6jgxw")
-
-[connection signal="body_entered" from="topChecker" to="." method="_on_top_checker_body_entered"]
-[connection signal="body_entered" from="sideChecker" to="." method="_on_side_checker_body_entered"]
+[node name="Healthbar" parent="." unique_id=2101535388 instance=ExtResource("1_1km4g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6757047, 0)

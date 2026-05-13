@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dqsceue51nix0"]
+
+[ext_resource type="PackedScene" uid="uid://bqri1yifc225b" path="res://custom_health_bar.tscn" id="1_ledv5"]
+
+[node name="SubViewport" type="SubViewport" unique_id=470738239]
+
+[node name="CustomHealthBar" parent="." unique_id=256753096 instance=ExtResource("1_ledv5")]

@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://bqri1yifc225b"]
+
+[ext_resource type="Script" uid="uid://xka14k751g0f" path="res://objects/custom_health_bar.gd" id="1_ij7pp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6jgxw"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1km4g"]
+bg_color = Color(0.7261096, 0, 0.013963886, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ieb5x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rs5hy"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="CustomHealthBar" type="ProgressBar" unique_id=256753096]
+custom_minimum_size = Vector2(150, 8)
+anchors_preset = -1
+anchor_right = 0.030000001
+anchor_bottom = 0.014
+offset_left = 1.9999999
+offset_top = 1.9999999
+offset_right = 117.44
+offset_bottom = 19.928
+scale = Vector2(0.2, 0.19933824)
+theme_override_styles/background = SubResource("StyleBoxFlat_6jgxw")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1km4g")
+show_percentage = false
+script = ExtResource("1_ij7pp")
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=2049010180]
+show_behind_parent = true
+custom_minimum_size = Vector2(150, 10)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.008
+anchor_bottom = 1.0
+offset_right = -147.2
+scale = Vector2(1.0081792, 1.0057901)
+theme_override_styles/background = SubResource("StyleBoxEmpty_ieb5x")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rs5hy")
+show_percentage = false
+
+[node name="ResetVisibility" type="Timer" parent="." unique_id=932356392]
