@@ -1,4 +1,4 @@
-extends RefCounted # Automatically manages memory for data objects
+extends RefCounted
 class_name InputPackage
 
 var input_direction : Vector2 = Vector2.ZERO

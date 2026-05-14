@@ -24,6 +24,8 @@ transform = Transform3D(1, 0, 0, 0, -0.01856928, 0.99982756, 0, -0.99982756, -0.
 
 [node name="Steve" parent="." unique_id=638694537 instance=ExtResource("2_r3fl7")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 5.3183765, 0)
+RUN_SPEED = null
+GRAVITY = null
 
 [node name="evilSteve2" parent="." unique_id=1221895033 instance=ExtResource("3_jka67")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.326035, 2.4942188, -6.4601107)
