@@ -1,6 +1,5 @@
-extends Node
+extends RefCounted # Automatically manages memory for data objects
 class_name InputPackage
 
-var is_jumping : bool
-
-var input_direction : Vector2
+var input_direction : Vector2 = Vector2.ZERO
+var actions : Array[String] = []

@@ -1,23 +1,21 @@
-extends Node
+extends Move
 class_name Run
 
-const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
+const SPEED = 6.0 # Matches Steve's RUN_SPEED
 
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-
-func check_relevance(input : InputPackage):
-	if input.action.has("jump") and player.is_on_floor():
-		return "jump"
-	if input.input_direction == Vector2.ZERO:
-		return "idle"
-	return "okay"
-	
-func update(input: Input)
-	player.velocity = vel
-	player.move_and_slide
-	
-func velocity_by_input(input : InputPackage, delta : float) -> Vector3:
-	var new_velocity = player.velocity
-	
-	var direction = player.transform.basis * Vector3(input.input_direction.x, 0, input.input_direction.y)).normalized
+func update(input: InputPackage, delta: float):
+	if input.input_direction != Vector2.ZERO:
+		# Calculate direction using your existing player method
+		var move_dir = player.calculate_movement_direction(input.input_direction)
+		player.velocity.x = move_dir.x * SPEED
+		player.velocity.z = move_dir.z * SPEED
+		
+		# Handle the visual rotation (looking where he moves)
+		player.handle_visuals(delta)
+		
+		if player.anim_player.has_animation("Armature|run"):
+			player.anim_player.play("Armature|run", 0.2)
+	else:
+		# This prevents the "infinite slide" when in the Run state with no input
+		player.velocity.x = move_toward(player.velocity.x, 0, SPEED)
+		player.velocity.z = move_toward(player.velocity.z, 0, SPEED)

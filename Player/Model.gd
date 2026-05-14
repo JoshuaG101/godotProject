@@ -1,22 +1,35 @@
 extends Node
+class_name StateMachine
 
+@onready var player: CharacterBody3D = $".."
+@onready var states = {
+	"idle": $Idle,
+	"run": $Run,
+	"jump": $Jump
+}
 
+var current_state: Move
 
-
-const JUMP_VELOCITY = 4.5
-
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-
-@onready var player = $".."
-
-func velocity_by_input(input : InputPackage, delta : float) -> Vector3:
-	var new_velocity = player.velocity
+func _ready():
+	# Wait for the parent (Player) to be ready so all @onready vars are set
+	await get_parent().ready 
 	
-	var direction = (player.transform.basis * Vector3(input.input_direction.x, 0, input.input_direction.y)).normalized
-	new_velocity.x = direction.x * SPEED     
-	new_velocity.z = direction.z * SPEED
+	for child in get_children():
+		if child is Move:
+			child.player = player
+			
+	current_state = $Idle
+	current_state.on_enter_state()
+
+func process_state(input_package: InputPackage, delta: float):
+	var next_state_name = current_state.check_relevance(input_package)
 	
-	if not player.is_on_floor():
-		new_velocity.y -= gravity * delta
+	if next_state_name != "okay" and states.has(next_state_name):
+		change_state(next_state_name)
 	
-	return new_velocity
+	current_state.update(input_package, delta)
+
+func change_state(new_state_name: String):
+	current_state.on_exit_state()
+	current_state = states[new_state_name]
+	current_state.on_enter_state()
