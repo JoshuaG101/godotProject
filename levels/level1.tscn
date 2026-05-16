@@ -57,5 +57,5 @@ environment = SubResource("Environment_lf3p4")
 [node name="Steve" parent="." unique_id=638694537 instance=ExtResource("2_b3oru")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -207.53897, 47.00959, 374.56058)
 
-[node name="Camera3D2" type="Camera3D" parent="." unique_id=1420164319]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1420164319]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -204.18286, 64.08886, 376.74014)

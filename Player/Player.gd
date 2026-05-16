@@ -9,6 +9,7 @@ extends CharacterBody3D
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var input_gatherer: InputGatherer = $Input
 @onready var model: StateMachine = $Model
+@onready var hitbox: Hitbox = $hitbox
 
 func _physics_process(delta: float) -> void:
 	# Apply Gravity universally

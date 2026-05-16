@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c404v1276k1m6" path="res://mainCharacter/textures/Gemini_Generated_Image_yewoa4yewoa4yewo.png" id="2_gubtu"]
 [ext_resource type="Script" uid="uid://ecjipbvte4eb" path="res://objects/camera_mount.gd" id="3_gubtu"]
 [ext_resource type="Texture2D" uid="uid://bo1tk48s7hbcp" path="res://mainCharacter/textures/Gemini_Generated_Image_htt2pshtt2pshtt2.png" id="3_iflv8"]
+[ext_resource type="Script" uid="uid://5t5dxya8wpuv" path="res://objects/hitbox.gd" id="4_52mj0"]
 [ext_resource type="Script" uid="uid://ckhqougf66pmg" path="res://Player/Input.gd" id="5_1u8xe"]
 [ext_resource type="Script" uid="uid://0yfssx6pjge7" path="res://Player/Model.gd" id="6_cuqn5"]
 [ext_resource type="Script" uid="uid://tkli8nmibbqb" path="res://objects/Idle.gd" id="7_52mj0"]
@@ -18054,6 +18055,9 @@ height = 2.3339844
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_gubtu"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ebfe6"]
+size = Vector3(3.5213928, 2.6445923, 2.072998)
+
 [node name="Steve" type="CharacterBody3D" unique_id=638694537]
 collision_mask = 30
 script = ExtResource("1_l8p6n")
@@ -18618,7 +18622,7 @@ skeleton = NodePath("..")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1977105471]
 libraries/ = SubResource("AnimationLibrary_ebfe6")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1484250519]
+[node name="hurtbox" type="CollisionShape3D" parent="." unique_id=1484250519]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029101372, 1.1242245, 0.013969906)
 shape = SubResource("CapsuleShape3D_iwo6d")
 metadata/_edit_group_ = true
@@ -18637,6 +18641,14 @@ spring_length = 3.0
 margin = 14.665
 
 [node name="Camera3D" type="Camera3D" parent="Camera_mount/h/v" unique_id=296319558]
+
+[node name="hitbox" type="Area3D" parent="." unique_id=263103780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.142201, 1.3127261, 0)
+script = ExtResource("4_52mj0")
+
+[node name="hitboxArea" type="CollisionShape3D" parent="hitbox" unique_id=696373739]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.7231493, -0.045823693, -0.1026001)
+shape = SubResource("BoxShape3D_ebfe6")
 
 [node name="Input" type="Node" parent="." unique_id=1253759924]
 script = ExtResource("5_1u8xe")
