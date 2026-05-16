@@ -5,10 +5,12 @@
 [ext_resource type="Script" uid="uid://ecjipbvte4eb" path="res://objects/camera_mount.gd" id="3_gubtu"]
 [ext_resource type="Texture2D" uid="uid://bo1tk48s7hbcp" path="res://mainCharacter/textures/Gemini_Generated_Image_htt2pshtt2pshtt2.png" id="3_iflv8"]
 [ext_resource type="Script" uid="uid://ckhqougf66pmg" path="res://Player/Input.gd" id="5_1u8xe"]
-[ext_resource type="Script" uid="uid://boo55wig34nug" path="res://objects/model.gd" id="6_cuqn5"]
+[ext_resource type="Script" uid="uid://0yfssx6pjge7" path="res://Player/Model.gd" id="6_cuqn5"]
 [ext_resource type="Script" uid="uid://tkli8nmibbqb" path="res://objects/Idle.gd" id="7_52mj0"]
 [ext_resource type="Script" uid="uid://82mfd2ldenat" path="res://objects/run.gd" id="8_ebfe6"]
 [ext_resource type="Script" uid="uid://yi0c51m4msel" path="res://objects/jump.gd" id="9_d4x4q"]
+[ext_resource type="Script" uid="uid://b3ewaswrfrbb" path="res://objects/Dodge.gd" id="10_cuqn5"]
+[ext_resource type="Script" uid="uid://bscepb57omuu7" path="res://objects/Attack.gd" id="11_52mj0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwo6d"]
 radius = 0.43847656
@@ -16395,3 +16397,9 @@ script = ExtResource("8_ebfe6")
 
 [node name="Jump" type="Node" parent="Model" unique_id=1849291850]
 script = ExtResource("9_d4x4q")
+
+[node name="Dodge" type="Node" parent="Model" unique_id=1620525822]
+script = ExtResource("10_cuqn5")
+
+[node name="Attack" type="Node" parent="Model" unique_id=812850980]
+script = ExtResource("11_52mj0")

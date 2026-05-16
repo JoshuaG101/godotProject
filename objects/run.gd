@@ -4,6 +4,10 @@ class_name Run
 func check_relevance(input: InputPackage) -> String:
 	if input.actions.has("jump") and player.is_on_floor():
 		return "jump"
+	if input.actions.has("dodge"):
+		return "dodge"
+	if input.actions.has("dodge"):
+		return "dodge"
 	if input.input_direction == Vector2.ZERO:
 		return "idle"
 	return "okay"
