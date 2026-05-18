@@ -7,9 +7,9 @@
 [sub_resource type="GDScript" id="GDScript_58a12"]
 script/source = "extends CharacterBody3D
 
-const SPEED = 3
+const SPEED = 3.0
 var gravity = ProjectSettings.get_setting(\"physics/3d/default_gravity\")
-@export var direction := Vector3(-1,0,0)
+@export var direction := Vector3(-1, 0, 0)
 @export var max_health := 100.0
 @onready var health_bar = $Healthbar/SubViewport/CustomHealthBar
 
@@ -32,20 +32,29 @@ func _ready():
 func _physics_process(delta):
 	if is_grabbed: return 
 	
-	# Apply normal patrol velocity
-	velocity.x = SPEED * direction.x
-	velocity.z = SPEED * direction.z
+	# Start with base patrol movement
+	var current_velocity = direction * SPEED
 
-	# --- ADD KNOCKBACK INFLUENCE ---
+	# --- APPLY KNOCKBACK INFLUENCE ---
 	if knockback_velocity.length() > 0.1:
-		velocity.x += knockback_velocity.x
-		velocity.z += knockback_velocity.z
-		# Gradually bleed off knockback speed over time
+		current_velocity += knockback_velocity
+		# Gradually bleed off knockback speed over time across all axes
 		knockback_velocity = knockback_velocity.move_toward(Vector3.ZERO, knockback_decay * delta)
 
+	# Apply gravity smoothly
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-		
+	else:
+		# If grounded, reset any leftover downward knockback forces
+		if knockback_velocity.y < 0:
+			knockback_velocity.y = 0
+
+	# Combine movement tracks into physical velocity
+	velocity.x = current_velocity.x
+	velocity.z = current_velocity.z
+	if current_velocity.y != 0:
+		velocity.y += current_velocity.y
+
 	move_and_slide()
 
 	if is_on_wall() and not turning:
@@ -70,17 +79,12 @@ func die():
 	print(\"Enemy died!\")
 	queue_free()
 
-# Keep your existing turn_around(), grab(), throw(), and _on_top_checker functions below...
-
-	if is_on_wall() and not turning:
-		turn_around()
-		
 func turn_around():
 	turning = true
 	var dir = direction
 	direction = Vector3.ZERO
 	var turn_tween = create_tween()
-	turn_tween.tween_property(self, \"rotation_degrees\", Vector3(0,180,0),0.6).as_relative()
+	turn_tween.tween_property(self, \"rotation_degrees\", Vector3(0, 180, 0), 0.6).as_relative()
 	await get_tree().create_timer(0.6).timeout
 			
 	direction.x = dir.x * -1
@@ -106,7 +110,6 @@ func throw(force: Vector3):
 func _on_top_checker_body_entered(body: Node3D) -> void:
 	if body.has_method(\"bounce\"):
 		body.bounce()
-		
 "
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwo6d"]
@@ -18149,16 +18152,18 @@ _data = {
 &"Armature|weirdPose": SubResource("Animation_pxstr")
 }
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_gpyrh"]
+size = Vector3(1.1699219, 2.0568848, 1.5461426)
+
 [node name="evilSteve" type="CharacterBody3D" unique_id=638694537]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08113837, 0)
 collision_layer = 9
-collision_mask = 3
+collision_mask = 11
 script = SubResource("GDScript_58a12")
 
-[node name="hurtbox" type="CollisionShape3D" parent="." unique_id=1484250519]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1484250519]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029101372, 1.1242245, 0.013969906)
 shape = SubResource("CapsuleShape3D_iwo6d")
-metadata/_edit_group_ = true
 
 [node name="Healthbar" parent="." unique_id=2101535388 instance=ExtResource("1_1km4g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6757047, 0)
@@ -18721,3 +18726,10 @@ skeleton = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=132680649]
 libraries/ = SubResource("AnimationLibrary_ys1h4")
+
+[node name="hurtbox" type="Area3D" parent="." unique_id=1937208043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029101372, 1.1242245, 0.013969906)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hurtbox" unique_id=449735220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08496094, 0.024780273, 0.022583008)
+shape = SubResource("BoxShape3D_gpyrh")

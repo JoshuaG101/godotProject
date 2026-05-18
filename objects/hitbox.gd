@@ -14,6 +14,7 @@ func _ready() -> void:
 
 func _on_area_entered(hurtbox: Area3D) -> void:
 	# Verify the hurtbox belongs to an enemy parent object
+	print("Hitbox overlapped something! Name: ", hurtbox.name) # Add this temporary line
 	var enemy = hurtbox.get_parent()
 	if enemy and enemy.is_in_group("enemy") and enemy.has_method("take_damage"):
 		# Calculate dynamic global knockback direction from the player's facing angle if not preset

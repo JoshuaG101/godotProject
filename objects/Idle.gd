@@ -14,7 +14,11 @@ func check_relevance(input: InputPackage) -> String:
 	
 	if input.actions.size() > 0:
 		var top_action = input.actions[0]
-		# The state is called "idle", not "Armature|idle"
+		
+		# --- ADD THIS: Redirect attack actions to the attack state ---
+		if top_action == "light_attack" or top_action == "heavy_attack":
+			return "attack"
+			
 		if top_action != "idle":
 			return top_action
 			

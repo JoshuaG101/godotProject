@@ -6,8 +6,11 @@ func check_relevance(input: InputPackage) -> String:
 		return "jump"
 	if input.actions.has("dodge"):
 		return "dodge"
-	if input.actions.has("dodge"):
-		return "dodge"
+	
+	# --- ADD THIS: Check for attacks while running ---
+	if input.actions.has("light_attack") or input.actions.has("heavy_attack"):
+		return "attack"
+		
 	if input.input_direction == Vector2.ZERO:
 		return "idle"
 	return "okay"

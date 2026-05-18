@@ -38,34 +38,32 @@ func on_enter_state():
 func play_dodge_counter_attack(dodge_type: String):
 	var base_anim = ""
 	
-	# Reset generic knockback preset
-	hitbox.knockback_direction = Vector3.ZERO 
-	
 	match dodge_type:
 		"left":
 			base_anim = "fastestLeftHook"
-			setup_hitbox_data(15.0, 5.0) # Light hooks push away standardly
+			setup_hitbox_data(15.0, 5.0, Vector3.ZERO) # Uses default forward push
 		"right":
 			base_anim = "fastestRightHook"
-			setup_hitbox_data(15.0, 5.0)
+			setup_hitbox_data(15.0, 5.0, Vector3.ZERO)
 		"forward":
 			base_anim = "uppercut"
 			# Launch Enemy upward and slightly forward
 			var forward_vector = -player.visuals.global_transform.basis.z.normalized()
-			hitbox.knockback_direction = (forward_vector * 0.4 + Vector3.UP * 1.2).normalized()
-			setup_hitbox_data(25.0, 14.0)
+			var launch_dir = (forward_vector * 0.4 + Vector3.UP * 1.2).normalized()
+			setup_hitbox_data(25.0, 14.0, launch_dir)
 		"back":
 			base_anim = "chargeAttacke2"
 			# Strong horizontal launch straight backward away from player orientation
-			hitbox.knockback_direction = -player.visuals.global_transform.basis.z.normalized()
-			setup_hitbox_data(35.0, 22.0)
+			var launch_dir = -player.visuals.global_transform.basis.z.normalized()
+			setup_hitbox_data(35.0, 22.0, launch_dir)
 			
 	play_prefixed_animation(base_anim)
 	set_attack_window(base_anim)
 
 func play_light_combo():
-	var base_anim = "light_attack_" + str(light_combo_step)
-	setup_hitbox_data(10.0, 4.0) # Consistent clean light hits
+	# Replaced the combo generation with the specific "headbutt" animation name
+	var base_anim = "fastestHeadbutt"
+	setup_hitbox_data(10.0, 4.0, Vector3.ZERO) # Clears any previous special knockback direction
 	
 	play_prefixed_animation(base_anim, 0.05)
 	set_attack_window(base_anim)
@@ -73,15 +71,16 @@ func play_light_combo():
 
 func play_heavy_attack():
 	var base_anim = "heavy_attack_1" 
-	setup_hitbox_data(20.0, 10.0) # Staggering heavy swing
+	setup_hitbox_data(20.0, 10.0, Vector3.ZERO) # Clears any previous special knockback direction
 	
 	play_prefixed_animation(base_anim, 0.1)
 	set_attack_window(base_anim)
 
-func setup_hitbox_data(dmg: float, kb_force: float):
+func setup_hitbox_data(dmg: float, kb_force: float, kb_dir: Vector3 = Vector3.ZERO):
 	if hitbox:
 		hitbox.damage = dmg
 		hitbox.knockback_force = kb_force
+		hitbox.knockback_direction = kb_dir # Resets vector so subsequent moves aren't bugged
 
 func set_attack_window(base_name: String):
 	var full_name = "Armature|" + base_name
@@ -95,8 +94,6 @@ func update(_input: InputPackage, delta: float):
 	attack_timer -= delta
 	
 	# --- HITBOX WINDOW ACTIVATION ---
-	# Automatically activates the hitbox data during active hitting swing frames 
-	# (e.g., active from 20% into the move until 60% through the animation length)
 	var elapsed = current_anim_duration - attack_timer
 	if elapsed > (current_anim_duration * 0.2) and elapsed < (current_anim_duration * 0.6):
 		if hitbox: hitbox.monitoring = true
