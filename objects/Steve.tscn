@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://yi0c51m4msel" path="res://objects/jump.gd" id="9_d4x4q"]
 [ext_resource type="Script" uid="uid://b3ewaswrfrbb" path="res://objects/Dodge.gd" id="10_cuqn5"]
 [ext_resource type="Script" uid="uid://bscepb57omuu7" path="res://objects/Attack.gd" id="11_52mj0"]
+[ext_resource type="PackedScene" uid="uid://bqri1yifc225b" path="res://custom_health_bar.tscn" id="13_ebfe6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nfjh1"]
 resource_name = "Material.016"
@@ -18058,6 +18059,11 @@ height = 2.3339844
 [sub_resource type="BoxShape3D" id="BoxShape3D_ebfe6"]
 size = Vector3(3.5213928, 2.6445923, 2.072998)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d4x4q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_meg0a"]
+bg_color = Color(1, 1, 1, 1)
+
 [node name="Steve" type="CharacterBody3D" unique_id=638694537]
 collision_mask = 30
 script = ExtResource("1_l8p6n")
@@ -18670,3 +18676,28 @@ script = ExtResource("10_cuqn5")
 
 [node name="Attack" type="Node" parent="Model" unique_id=812850980]
 script = ExtResource("11_52mj0")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=978679233]
+
+[node name="CustomHealthBar" parent="CanvasLayer" unique_id=256753096 instance=ExtResource("13_ebfe6")]
+offset_left = 13.0
+offset_top = 11.0
+offset_right = 156.76
+offset_bottom = 28.928
+scale = Vector2(1.005, 1)
+pivot_offset = Vector2(149.56119, 6)
+
+[node name="ProgressBar2" type="ProgressBar" parent="CanvasLayer/CustomHealthBar" unique_id=1997796446]
+show_behind_parent = true
+custom_minimum_size = Vector2(150, 10)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.008
+anchor_bottom = 1.0
+offset_right = -5.3048706
+scale = Vector2(1.0081792, 1.0057901)
+theme_override_styles/background = SubResource("StyleBoxEmpty_d4x4q")
+theme_override_styles/fill = SubResource("StyleBoxFlat_meg0a")
+show_percentage = false
+
+[node name="ResetVisibility" type="Timer" parent="CanvasLayer/CustomHealthBar/ProgressBar2" unique_id=134197958]
