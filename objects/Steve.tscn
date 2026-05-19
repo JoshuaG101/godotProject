@@ -15,9 +15,6 @@
 [ext_resource type="Script" uid="uid://cia8viy14att4" path="res://objects/health_bar.gd" id="13_d4x4q"]
 [ext_resource type="Script" uid="uid://b1via2lieb7gg" path="res://objects/stamina_bar.gd" id="14_meg0a"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ebfe6"]
-size = Vector3(5.2247953, 2.6445923, 5.082947)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nfjh1"]
 resource_name = "Material.016"
 vertex_color_use_as_albedo = true
@@ -379,6 +376,9 @@ bind/63/pose = Transform3D(1.7063864, -16.762402, -0.47992423, 58.99321, 0.50628
 bind/64/name = &"mixamorig_RightToe_End"
 bind/64/bone = -1
 bind/64/pose = Transform3D(1.7063872, -16.762402, -0.47991934, 58.99321, 0.5062879, -2.9245324, 5.7731915, -0.21860921, 30.026155, -0.17846106, -0.19221206, 1.7084651)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ebfe6"]
+size = Vector3(3.6748817, 4.8990803, 5.00799)
 
 [sub_resource type="Animation" id="Animation_6qdoq"]
 resource_name = "Armature|anxiousSitting"
@@ -18109,14 +18109,6 @@ script = ExtResource("1_l8p6n")
 [node name="Armature" type="Node3D" parent="." unique_id=2052995403]
 transform = Transform3D(-0.0090140095, -7.549443e-08, 0.99995935, 3.5527135e-15, 1, 7.549749e-08, -0.99995935, 6.8053296e-10, -0.0090140095, 0, 0, 0)
 
-[node name="hitbox" type="Area3D" parent="Armature" unique_id=263103780]
-transform = Transform3D(-0.00901401, -2.1649351e-15, -0.99995947, -7.549443e-08, 1, 6.805387e-10, 0.99995947, 7.5497496e-08, -0.00901401, -0.10945139, 1.0012891, -1.143234)
-script = ExtResource("4_52mj0")
-
-[node name="hitboxArea" type="CollisionShape3D" parent="Armature/hitbox" unique_id=696373739]
-transform = Transform3D(-2.1855694e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.1855694e-08, 1.1541814, -0.045823693, -1.7851307)
-shape = SubResource("BoxShape3D_ebfe6")
-
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature" unique_id=1868367483]
 bones/0/name = "mixamorig_Hips"
 bones/0/parent = -1
@@ -18670,6 +18662,14 @@ transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0
 mesh = SubResource("ArrayMesh_cuqn5")
 skin = SubResource("Skin_52mj0")
 skeleton = NodePath("..")
+
+[node name="hitbox" type="Area3D" parent="Armature" unique_id=263103780]
+transform = Transform3D(-0.009014011, -2.1649351e-15, -0.9999596, -7.5494434e-08, 1, 6.8053874e-10, 0.9999596, 7.5497496e-08, -0.009014011, -0.109451406, 1.0012891, -1.143234)
+script = ExtResource("4_52mj0")
+
+[node name="hitboxArea" type="CollisionShape3D" parent="Armature/hitbox" unique_id=696373739]
+transform = Transform3D(-2.1855694e-08, 0, -0.5, -3.3087225e-24, 0.5, -1.2132347e-24, 0.5, 0, -2.1855694e-08, 0.49673223, 0.2201041, -0.06334808)
+shape = SubResource("BoxShape3D_ebfe6")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1977105471]
 libraries/ = SubResource("AnimationLibrary_ebfe6")

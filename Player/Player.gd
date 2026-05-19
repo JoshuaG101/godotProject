@@ -9,7 +9,7 @@ extends CharacterBody3D
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var input_gatherer: InputGatherer = $Input
 @onready var model: StateMachine = $Model
-@onready var hitbox: Hitbox = $hitbox
+@onready var hitbox: Hitbox = $Armature/hitbox
 @onready var health_bar: HealthBar = $CanvasLayer/HealthBar
 @onready var stamina_bar: StaminaBar = $CanvasLayer/StaminaBar
 
