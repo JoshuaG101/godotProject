@@ -65,21 +65,27 @@ func _physics_process(delta: float) -> void:
 	model.process_state(input_pkg, delta)
 	
 	move_and_slide()
-
-# Helper method so your state nodes can handle turning smoothly
 func handle_visuals(delta: float):
-	if velocity.x == 0 and velocity.z == 0 and not camera_mount.locked_target:
-		return
-		
+	# If we have a locked target, look at it smoothly
 	if camera_mount.locked_target:
 		var target_pos = camera_mount.locked_target.global_position
 		target_pos.y = global_position.y 
-		var target_transform = visuals.global_transform.looking_at(target_pos, Vector3.UP)
-		visuals.global_transform = visuals.global_transform.interpolate_with(target_transform, delta * 15.0)
-	else:
-		var look_target = global_position + Vector3(velocity.x, 0, velocity.z)
-		visuals.look_at(look_target, Vector3.UP)
+		
+		if global_position.distance_to(target_pos) > 0.1:
+			var target_transform = visuals.global_transform.looking_at(target_pos, Vector3.UP).orthonormalized()
+			# Orthonormalize the current visuals basis too so slerp doesn't crash
+			var current_basis = visuals.global_transform.basis.orthonormalized()
+			visuals.global_transform.basis = current_basis.slerp(target_transform.basis, 10.0 * delta)
+		return
 
+	# If not locked on, rotate towards movement direction
+	if velocity.x != 0 or velocity.z != 0:
+		var look_target = global_position + Vector3(velocity.x, 0, velocity.z)
+		
+		var target_transform = visuals.global_transform.looking_at(look_target, Vector3.UP).orthonormalized()
+		var current_basis = visuals.global_transform.basis.orthonormalized()
+		visuals.global_transform.basis = current_basis.slerp(target_transform.basis, 10.0 * delta)
+		
 func calculate_movement_direction(input: Vector2) -> Vector3:
 	var forward: Vector3
 	var right: Vector3

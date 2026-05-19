@@ -107,6 +107,16 @@ func on_exit_state():
 		light_combo_step = 1
 
 func play_prefixed_animation(base_name: String, blend: float = 0.1):
-	var full_name = "Armature|" + base_name
-	if anim_player and anim_player.has_animation(full_name):
-		anim_player.play(full_name, blend)
+	if not anim_player:
+		return
+		
+	var prefixed_name = "Armature|" + base_name
+	
+	# 1. Try the plain name first (New Character)
+	if anim_player.has_animation(base_name):
+		anim_player.play(base_name, blend)
+	# 2. Fall back to the prefixed name (Old Character)
+	elif anim_player.has_animation(prefixed_name):
+		anim_player.play(prefixed_name, blend)
+	else:
+		print_rich("[color=yellow]Animation Warning:[/color] Neither '%s' nor '%s' found." % [base_name, prefixed_name])

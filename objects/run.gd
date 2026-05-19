@@ -25,7 +25,11 @@ func update(input: InputPackage, delta: float):
 		
 		player.handle_visuals(delta)
 		
-		if anim_player and anim_player.has_animation("Armature|run"):
+		# Replace the old animation block with this:
+	if anim_player:
+		if anim_player.has_animation("run"):
+			anim_player.play("run", 0.2)
+		elif anim_player.has_animation("Armature|run"):
 			anim_player.play("Armature|run", 0.2)
 	else:
 		# Friction

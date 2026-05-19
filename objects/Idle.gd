@@ -6,8 +6,12 @@ func on_enter_state():
 	player.velocity.z = 0
 	
 	# Use the 'anim_player' shortcut from Move.gd
-	if anim_player and anim_player.has_animation("Armature|idle"):
-		anim_player.play("Armature|idle", 0.3)
+# Replace the old animation block with this:
+	if anim_player:
+		if anim_player.has_animation("idle"):
+			anim_player.play("idle", 0.3)
+		elif anim_player.has_animation("Armature|idle"):
+			anim_player.play("Armature|idle", 0.3)
 
 func check_relevance(input: InputPackage) -> String:
 	input.actions.sort_custom(moves_priority_sort)

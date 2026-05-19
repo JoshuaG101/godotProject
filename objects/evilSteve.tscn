@@ -11,7 +11,7 @@ const SPEED = 3.0
 var gravity = ProjectSettings.get_setting(\"physics/3d/default_gravity\")
 @export var direction := Vector3(-1, 0, 0)
 @export var max_health := 100.0
-@onready var health_bar = $Healthbar/SubViewport/CustomHealthBar
+@onready var health_bar = $Armature/Healthbar/SubViewport/CustomHealthBar
 
 var current_health: float = max_health
 var turning := false
@@ -18165,9 +18165,6 @@ script = SubResource("GDScript_58a12")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029101372, 1.1242245, 0.013969906)
 shape = SubResource("CapsuleShape3D_iwo6d")
 
-[node name="Healthbar" parent="." unique_id=2101535388 instance=ExtResource("1_1km4g")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6757047, 0)
-
 [node name="Armature" type="Node3D" parent="." unique_id=288827511]
 transform = Transform3D(-0.0090140095, -7.549443e-08, 0.99995935, 3.5527135e-15, 1, 7.549749e-08, -0.99995935, 6.8053296e-10, -0.0090140095, 0, 0, 0)
 
@@ -18723,6 +18720,9 @@ bones/77/scale = Vector3(1, 1, 1)
 mesh = SubResource("ArrayMesh_dtale")
 skin = SubResource("Skin_rnr52")
 skeleton = NodePath("..")
+
+[node name="Healthbar" parent="Armature" unique_id=2101535388 instance=ExtResource("1_1km4g")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 2.6757047, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=132680649]
 libraries/ = SubResource("AnimationLibrary_ys1h4")
