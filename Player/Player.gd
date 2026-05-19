@@ -10,7 +10,49 @@ extends CharacterBody3D
 @onready var input_gatherer: InputGatherer = $Input
 @onready var model: StateMachine = $Model
 @onready var hitbox: Hitbox = $hitbox
+@onready var health_bar: HealthBar = $CanvasLayer/HealthBar
+@onready var stamina_bar: StaminaBar = $CanvasLayer/StaminaBar
 
+# Player Stats
+@export var max_health: float = 100.0
+var current_health: float
+
+@export var max_stamina: float = 100.0
+var current_stamina: float
+
+func _ready() -> void:
+	current_health = max_health
+	current_stamina = max_stamina
+	
+	# Initialize the UI bars
+	health_bar.setup_bar(max_health)
+	stamina_bar.setup_bar(max_stamina)
+
+# Example function for taking damage
+func take_damage(amount: float):
+	current_health = clamp(current_health - amount, 0.0, max_health)
+	health_bar.change_value(current_health)
+	
+	if current_health <= 0:
+		die()
+
+# Example function for using stamina (e.g., dodging or running)
+func use_stamina(amount: float) -> bool:
+	if current_stamina >= amount:
+		current_stamina -= amount
+		stamina_bar.change_value(current_stamina)
+		return true # Success
+	return false # Not enough stamina
+
+# Example function for regenerating stamina over time
+func _process(delta: float) -> void:
+	if current_stamina < max_stamina:
+		current_stamina = clamp(current_stamina + (15.0 * delta), 0.0, max_stamina)
+		stamina_bar.change_value(current_stamina)
+
+func die():
+	print("Player died!")
+	
 func _physics_process(delta: float) -> void:
 	# Apply Gravity universally
 	if not is_on_floor():

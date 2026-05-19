@@ -15,6 +15,9 @@
 [ext_resource type="Script" uid="uid://cia8viy14att4" path="res://objects/health_bar.gd" id="13_d4x4q"]
 [ext_resource type="Script" uid="uid://b1via2lieb7gg" path="res://objects/stamina_bar.gd" id="14_meg0a"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ebfe6"]
+size = Vector3(5.2247953, 2.6445923, 5.082947)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nfjh1"]
 resource_name = "Material.016"
 vertex_color_use_as_albedo = true
@@ -18057,9 +18060,6 @@ height = 2.3339844
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_gubtu"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ebfe6"]
-size = Vector3(3.5213928, 2.6445923, 2.072998)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akvuq"]
 bg_color = Color(1, 1, 1, 1)
 draw_center = false
@@ -18074,7 +18074,7 @@ expand_margin_right = 10.0
 expand_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_34q1n"]
-bg_color = Color(0.5052361, 0.0089174425, 1.4439226e-07, 1)
+bg_color = Color(0.7254902, 0, 0.015686275, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0xw6r"]
 
@@ -18095,7 +18095,7 @@ expand_margin_right = 10.0
 expand_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_72a3b"]
-bg_color = Color(0.23137255, 0.47058824, 0, 1)
+bg_color = Color(0.42352942, 0.79607844, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4jhj5"]
 
@@ -18108,6 +18108,14 @@ script = ExtResource("1_l8p6n")
 
 [node name="Armature" type="Node3D" parent="." unique_id=2052995403]
 transform = Transform3D(-0.0090140095, -7.549443e-08, 0.99995935, 3.5527135e-15, 1, 7.549749e-08, -0.99995935, 6.8053296e-10, -0.0090140095, 0, 0, 0)
+
+[node name="hitbox" type="Area3D" parent="Armature" unique_id=263103780]
+transform = Transform3D(-0.00901401, -2.1649351e-15, -0.99995947, -7.549443e-08, 1, 6.805387e-10, 0.99995947, 7.5497496e-08, -0.00901401, -0.10945139, 1.0012891, -1.143234)
+script = ExtResource("4_52mj0")
+
+[node name="hitboxArea" type="CollisionShape3D" parent="Armature/hitbox" unique_id=696373739]
+transform = Transform3D(-2.1855694e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.1855694e-08, 1.1541814, -0.045823693, -1.7851307)
+shape = SubResource("BoxShape3D_ebfe6")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature" unique_id=1868367483]
 bones/0/name = "mixamorig_Hips"
@@ -18685,14 +18693,6 @@ spring_length = 3.0
 margin = 14.665
 
 [node name="Camera3D" type="Camera3D" parent="Camera_mount/h/v" unique_id=296319558]
-
-[node name="hitbox" type="Area3D" parent="." unique_id=263103780]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.142201, 1.3127261, 0)
-script = ExtResource("4_52mj0")
-
-[node name="hitboxArea" type="CollisionShape3D" parent="hitbox" unique_id=696373739]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.7231493, -0.045823693, -0.1026001)
-shape = SubResource("BoxShape3D_ebfe6")
 
 [node name="Input" type="Node" parent="." unique_id=1253759924]
 script = ExtResource("5_1u8xe")
