@@ -12,7 +12,8 @@
 [ext_resource type="Script" uid="uid://yi0c51m4msel" path="res://objects/jump.gd" id="9_d4x4q"]
 [ext_resource type="Script" uid="uid://b3ewaswrfrbb" path="res://objects/Dodge.gd" id="10_cuqn5"]
 [ext_resource type="Script" uid="uid://bscepb57omuu7" path="res://objects/Attack.gd" id="11_52mj0"]
-[ext_resource type="PackedScene" uid="uid://bqri1yifc225b" path="res://custom_health_bar.tscn" id="13_ebfe6"]
+[ext_resource type="Script" uid="uid://cia8viy14att4" path="res://objects/health_bar.gd" id="13_d4x4q"]
+[ext_resource type="Script" uid="uid://b1via2lieb7gg" path="res://objects/stamina_bar.gd" id="14_meg0a"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nfjh1"]
 resource_name = "Material.016"
@@ -18059,9 +18060,46 @@ height = 2.3339844
 [sub_resource type="BoxShape3D" id="BoxShape3D_ebfe6"]
 size = Vector3(3.5213928, 2.6445923, 2.072998)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d4x4q"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akvuq"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_meg0a"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_34q1n"]
+bg_color = Color(0.5052361, 0.0089174425, 1.4439226e-07, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0xw6r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8ym3"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg1fj"]
+bg_color = Color(0, 0, 0, 1)
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_72a3b"]
+bg_color = Color(0.23137255, 0.47058824, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4jhj5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0kppf"]
 bg_color = Color(1, 1, 1, 1)
 
 [node name="Steve" type="CharacterBody3D" unique_id=638694537]
@@ -18679,25 +18717,53 @@ script = ExtResource("11_52mj0")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=978679233]
 
-[node name="CustomHealthBar" parent="CanvasLayer" unique_id=256753096 instance=ExtResource("13_ebfe6")]
-offset_left = 13.0
-offset_top = 11.0
-offset_right = 156.76
-offset_bottom = 28.928
-scale = Vector2(1.005, 1)
-pivot_offset = Vector2(149.56119, 6)
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer" unique_id=793825583]
+offset_left = 15.999999
+offset_top = 15.999999
+offset_right = 1616.0
+offset_bottom = 189.0
+scale = Vector2(0.2, 0.2)
+theme_override_styles/background = SubResource("StyleBoxFlat_akvuq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_34q1n")
+show_percentage = false
+script = ExtResource("13_d4x4q")
 
-[node name="ProgressBar2" type="ProgressBar" parent="CanvasLayer/CustomHealthBar" unique_id=1997796446]
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/HealthBar" unique_id=1143525441]
 show_behind_parent = true
-custom_minimum_size = Vector2(150, 10)
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.008
+anchor_right = 0.99700004
 anchor_bottom = 1.0
-offset_right = -5.3048706
-scale = Vector2(1.0081792, 1.0057901)
-theme_override_styles/background = SubResource("StyleBoxEmpty_d4x4q")
-theme_override_styles/fill = SubResource("StyleBoxFlat_meg0a")
+offset_right = -0.20019531
+offset_bottom = 1.9999847
+theme_override_styles/background = SubResource("StyleBoxEmpty_0xw6r")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a8ym3")
 show_percentage = false
 
-[node name="ResetVisibility" type="Timer" parent="CanvasLayer/CustomHealthBar/ProgressBar2" unique_id=134197958]
+[node name="StaminaBar" type="ProgressBar" parent="CanvasLayer" unique_id=929905402]
+offset_left = 17.0
+offset_top = 63.0
+offset_right = 1306.9999
+offset_bottom = 148.0
+scale = Vector2(0.2, 0.2)
+theme_override_styles/background = SubResource("StyleBoxFlat_bg1fj")
+theme_override_styles/fill = SubResource("StyleBoxFlat_72a3b")
+show_percentage = false
+script = ExtResource("14_meg0a")
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/StaminaBar" unique_id=688669916]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.004
+anchor_top = 0.059000004
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.15999985
+offset_top = -0.01500082
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_4jhj5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0kppf")
+show_percentage = false
