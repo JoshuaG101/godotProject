@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://d0adr8sr06mbf" path="res://mainCharacter/mainCharachterAnimations_Gemini_Generated_Image_yewoa4yewoa4yewo.png" id="2_d4x4q"]
 [ext_resource type="Script" uid="uid://ecjipbvte4eb" path="res://objects/camera_mount.gd" id="3_gubtu"]
 [ext_resource type="Texture2D" uid="uid://cgqjm02ky4byi" path="res://mainCharacter/mainCharachterAnimations_Gemini_Generated_Image_htt2pshtt2pshtt2.png" id="3_meg0a"]
-[ext_resource type="Script" uid="uid://5t5dxya8wpuv" path="res://objects/hitbox.gd" id="4_52mj0"]
 [ext_resource type="Script" uid="uid://ckhqougf66pmg" path="res://Player/Input.gd" id="5_1u8xe"]
 [ext_resource type="Script" uid="uid://0yfssx6pjge7" path="res://Player/Model.gd" id="6_cuqn5"]
 [ext_resource type="Script" uid="uid://tkli8nmibbqb" path="res://objects/Idle.gd" id="7_52mj0"]
@@ -364,8 +363,8 @@ bind/64/name = &"mixamorig_RightToe_End"
 bind/64/bone = -1
 bind/64/pose = Transform3D(3.8544676, -1.4443747, 99.91504, 99.81279, -4.6947455, -3.9186158, 4.7473645, 99.8793, 1.260698, -15.429735, -16.853775, 4.0467343)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ebfe6"]
-size = Vector3(222.86942, 370.4162, 375.29797)
+[sub_resource type="SphereShape3D" id="SphereShape3D_ebfe6"]
+radius = 18.89688
 
 [sub_resource type="Animation" id="Animation_j52i7"]
 resource_name = "anxiousSitting"
@@ -47339,8 +47338,8 @@ _data = {
 }
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwo6d"]
-radius = 0.43847656
-height = 2.3339844
+radius = 0.3022461
+height = 2.2947998
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_gubtu"]
 
@@ -47393,7 +47392,7 @@ script = ExtResource("1_l8p6n")
 [node name="Armature" type="Node3D" parent="." unique_id=981015143]
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature" unique_id=126260797]
-transform = Transform3D(0.01, 0, 0, 0, -4.3711387e-10, -0.01, 0, 0.01, -4.3711387e-10, 0, 0, 0)
+transform = Transform3D(-0.01, -8.7422775e-10, 0, -3.821371e-17, 4.3711387e-10, -0.01, 8.7422775e-10, -0.01, -4.3711387e-10, 0, 0, 0)
 bones/0/name = "mixamorig_Hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -5.5511148e-17, 9.313226e-10, -9.313226e-10, 0, 1, -5.551115e-17, -0.99999994, -5.169879e-26, 0.8940595, 3.5684047, -118.954445)
@@ -47856,20 +47855,35 @@ mesh = SubResource("ArrayMesh_akvuq")
 skin = SubResource("Skin_34q1n")
 skeleton = NodePath("..")
 
-[node name="hitbox" type="Area3D" parent="Armature" unique_id=263103780]
-transform = Transform3D(-9.0140515e-05, -5.2180482e-17, -0.009999594, -7.549441e-10, 0.01, 6.8053293e-12, 0.009999594, 7.5497475e-10, -9.0140515e-05, -0.109451406, 1.0012891, -1.143234)
-script = ExtResource("4_52mj0")
+[node name="LeftHand" type="BoneAttachment3D" parent="Armature/Skeleton3D" unique_id=943226821]
+transform = Transform3D(0.56368756, 0.08609417, -0.82148874, -0.8256942, 0.032219682, -0.5631966, -0.022020161, 0.9957656, 0.08924923, 45.889412, 17.894962, -107.93178)
+bone_name = "mixamorig_LeftHand"
+bone_idx = 10
 
-[node name="hitboxArea" type="CollisionShape3D" parent="Armature/hitbox" unique_id=696373739]
-transform = Transform3D(-2.188608e-08, 1.8335413e-09, -0.5, 4.2049214e-07, 0.5, -6.5701897e-09, 0.49999994, 0, -2.188608e-08, -10.970161, 12.292225, 4.5452595)
-shape = SubResource("BoxShape3D_ebfe6")
+[node name="Area3D" type="Area3D" parent="Armature/Skeleton3D/LeftHand" unique_id=19351191]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Armature/Skeleton3D/LeftHand/Area3D" unique_id=465723082]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7881393e-07, 10.412386, 2.973055)
+shape = SubResource("SphereShape3D_ebfe6")
+
+[node name="RightHand" type="BoneAttachment3D" parent="Armature/Skeleton3D" unique_id=1503054585]
+transform = Transform3D(0.35520166, -0.28645182, 0.8898181, 0.93476653, 0.115485966, -0.33596694, -0.006522896, 0.9511089, 0.30878657, -46.09925, 18.14227, -110.81656)
+bone_name = "mixamorig_RightHand"
+bone_idx = 34
+
+[node name="Area3D" type="Area3D" parent="Armature/Skeleton3D/RightHand" unique_id=237936719]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Armature/Skeleton3D/RightHand/Area3D" unique_id=1701238248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7881393e-07, 10.412386, 2.973055)
+shape = SubResource("SphereShape3D_ebfe6")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=357738784]
 libraries/ = SubResource("AnimationLibrary_0xw6r")
 
 [node name="hurtbox" type="CollisionShape3D" parent="." unique_id=1484250519]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029101372, 1.1242245, 0.013969906)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029101372, 1.1438168, -0.023847096)
 shape = SubResource("CapsuleShape3D_iwo6d")
+debug_color = Color(0.9919186, 0, 0.26534182, 0.41960785)
 metadata/_edit_group_ = true
 
 [node name="Camera_mount" type="Node3D" parent="." unique_id=1930631954]
