@@ -2,7 +2,6 @@ extends Move
 class_name Attack
 
 # --- ATTACK CONFIGURATION DATABASE ---
-# Maps animations to their exact frame windows, stats, and specific body-tied hitbox nodes.
 const ATTACK_DATABASE := {
 	"fastestHeadbutt": {
 		"damage": 10.0,
@@ -12,7 +11,7 @@ const ATTACK_DATABASE := {
 		"start_frame": 3.0,
 		"end_frame": 8.0,
 		"is_directional": false,
-		"hitbox_node": "HeadHitbox" # Tied to Head BoneAttachment3D
+		"hitbox_node": "HeadHitbox"
 	},
 	"heavy_attack_1": {
 		"damage": 20.0,
@@ -32,7 +31,7 @@ const ATTACK_DATABASE := {
 		"start_frame": 4.0,
 		"end_frame": 10.0,
 		"is_directional": false,
-		"hitbox_node": "LeftHandHitbox" # Tied to Left Hand BoneAttachment3D
+		"hitbox_node": "LeftHandHitbox"
 	},
 	"fastestRightHook": {
 		"damage": 15.0,
@@ -70,11 +69,7 @@ const ATTACK_DATABASE := {
 var attack_timer := 0.0
 var current_anim_duration := 0.5
 var light_combo_step := 1
-
-# Tracks properties for the currently executing attack configuration
 var current_attack_meta: Dictionary = {}
-
-# Active character-tied hitbox node reference for the current swing frame window
 var active_hitbox: Hitbox = null
 
 # --- ENGINE VIRTUAL METHODS ---
@@ -122,7 +117,6 @@ func update(_input: InputPackage, delta: float):
 		active_hitbox.monitoring = false
 
 func on_exit_state():
-	# Clean up and force turn off whatever hitbox was active during execution
 	if active_hitbox: 
 		active_hitbox.monitoring = false 
 	
@@ -144,13 +138,12 @@ func execute_attack(base_anim: String):
 		"start_frame": 0.0,
 		"end_frame": 999.0,
 		"is_directional": false,
-		"hitbox_node": "RightHandHitbox" # Default fallback node location
+		"hitbox_node": "RightHandHitbox" 
 	}
 	
 	if ATTACK_DATABASE.has(base_anim):
 		meta = ATTACK_DATABASE[base_anim].duplicate()
 		
-	# Process custom directional logic relative to local space transform vectors
 	if meta.get("is_directional", false) and player:
 		var forward_vector = -player.visuals.global_transform.basis.z.normalized()
 		if base_anim == "uppercut":
@@ -160,21 +153,25 @@ func execute_attack(base_anim: String):
 
 	current_attack_meta = meta
 	
-	# 1. Look up the specific body-tied hitbox node on the player scene structure
-	var node_path = meta.get("hitbox_node", "RightHandHitbox")
-	if player and player.has_node(node_path):
-		active_hitbox = player.get_node(node_path) as Hitbox
-		
-		# 2. Make sure this specific hitbox is wired to our hit code handler
-		if active_hitbox and not active_hitbox.body_entered.is_connected(_on_hitbox_body_entered):
-			active_hitbox.body_entered.connect(_on_hitbox_body_entered)
-	else:
-		# Fallback to structural default property hook if paths are broken
-		active_hitbox = player.hitbox if player else null
+	# --- FIXED NODE PATH EXTRACTION ---
+	var node_name = meta.get("hitbox_node", "RightHandHitbox")
+	var bone_attachment_name = "LeftHand" if "Left" in node_name else "RightHand"
+	if node_name == "HeadHitbox": 
+		bone_attachment_name = "Head"
 
-	# Populate structural data blocks inside the located active hitbox
-	setup_hitbox_data(meta.damage, meta.kb_force, meta.get("kb_dir", Vector3.ZERO), meta.float_time)
+	var full_hitbox_path = "Armature/Skeleton3D/" + bone_attachment_name + "/" + node_name
 	
+	# ... (Keep your path calculation code above this)
+
+	if player and player.has_node(full_hitbox_path):
+		active_hitbox = player.get_node(full_hitbox_path) as Hitbox
+		# SIGNAL CONNECTION REMOVED FROM HERE
+	else:
+		print_rich("[color=yellow]Hitbox Warning:[/color] Could not find %s." % full_hitbox_path)
+		active_hitbox = null
+		
+	setup_hitbox_data(meta.damage, meta.kb_force, meta.get("kb_dir", Vector3.ZERO), meta.float_time)
+
 	play_prefixed_animation(base_anim)
 	set_attack_window(base_anim)
 
@@ -228,7 +225,6 @@ func play_prefixed_animation(base_name: String, blend: float = 0.1):
 # --- SIGNAL PROCESSING ---
 
 func _on_hitbox_body_entered(body):
-	# Check against active_hitbox tracking bounds directly
 	if body.has_method("take_damage") and active_hitbox:
 		var kb_dir = active_hitbox.knockback_direction
 		var kb_force = active_hitbox.knockback_force
