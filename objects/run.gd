@@ -1,13 +1,17 @@
 extends Move
 class_name Run
 
+# Adjust these speed multipliers as needed
+@export var SPRINT_SPEED_MULTIPLIER := 1.6
+
 func check_relevance(input: InputPackage) -> String:
 	if input.actions.has("jump") and player.is_on_floor():
 		return "jump"
-	if input.actions.has("dodge"):
+		
+	# Only dodge tap if we are NOT already holding it down to sprint
+	if input.actions.has("dodge") and not input.actions.has("dodge_held"):
 		return "dodge"
 	
-	# Check for attacks while running
 	if input.actions.has("light_attack") or input.actions.has("heavy_attack"):
 		return "attack"
 		
@@ -17,22 +21,28 @@ func check_relevance(input: InputPackage) -> String:
 
 func update(input: InputPackage, delta: float):
 	if input.input_direction != Vector2.ZERO:
-		# 1. Calculate movement relative to camera
 		var move_dir = player.calculate_movement_direction(input.input_direction)
 		
-		player.velocity.x = move_dir.x * player.RUN_SPEED
-		player.velocity.z = move_dir.z * player.RUN_SPEED
+		# --- SPRINT VELOCITY CHECK ---
+		# Checks if your input gatherer reports the dodge action being held down
+		var current_speed = player.RUN_SPEED
+		var is_sprinting = input.actions.has("dodge_held") or Input.is_action_pressed("dodge")
 		
-		# Rotate character visuals towards movement direction (if not locked-on)
+		if is_sprinting:
+			current_speed *= SPRINT_SPEED_MULTIPLIER
+		
+		player.velocity.x = move_dir.x * current_speed
+		player.velocity.z = move_dir.z * current_speed
+		
 		player.handle_visuals(delta)
 		
-		# 2. Handle running/strafing animations
+		# --- ANIMATION SPEED SCALING ---
 		if anim_player:
+			# Dynamically speed up animation playback when sprinting
+			anim_player.speed_scale = SPRINT_SPEED_MULTIPLIER if is_sprinting else 1.0
+			
 			if player.camera_mount.locked_target:
-				# Get movement relative to where the player model is currently facing
 				var local_velocity = player.visuals.global_transform.basis.inverse() * player.velocity
-				
-				# Determine dominant direction based on local X and Z movement
 				if abs(local_velocity.x) > abs(local_velocity.z):
 					if local_velocity.x < 0:
 						_play_animation_fallback(["leftStep", "run"])
@@ -42,23 +52,24 @@ func update(input: InputPackage, delta: float):
 					if local_velocity.z < 0:
 						_play_animation_fallback(["forwardStep", "run"])
 					else:
-						# Fallback for backpedaling
 						_play_animation_fallback(["forwardStep", "run"]) 
 			else:
-				# Default standard running when not locked on
-				_play_animation_fallback(["run", "Armature|run"])
+				# Use custom sprint animation name if you have one, otherwise reuse 'run'
+				var run_anims = ["sprint", "Armature|sprint", "run", "Armature|run"] if is_sprinting else ["run", "Armature|run"]
+				_play_animation_fallback(run_anims)
 	else:
-		# 3. Friction (No input direction)
+		if anim_player:
+			anim_player.speed_scale = 1.0
+			
 		player.velocity.x = move_toward(player.velocity.x, 0, player.RUN_SPEED)
 		player.velocity.z = move_toward(player.velocity.z, 0, player.RUN_SPEED)
-		
-		# Note: Let your 'Idle' state handle playing the idle animation 
-		# once check_relevance transitions the player out of this state.
 
-# Helper function to play the first available animation from a list
+func on_exit_state():
+	if anim_player:
+		anim_player.speed_scale = 1.0
+
 func _play_animation_fallback(anim_names: Array):
 	for anim in anim_names:
 		if anim_player.has_animation(anim):
-			# Adjust the blend time (0.2) as needed for smooth transitions
 			anim_player.play(anim, 0.2)
 			return

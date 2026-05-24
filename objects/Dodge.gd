@@ -1,4 +1,3 @@
-# dodge.gd
 extends Move
 class_name Dodge
 
@@ -8,19 +7,17 @@ class_name Dodge
 var dodge_timer := 0.0
 var current_dodge_dir := Vector2.ZERO
 
-# Tracking consecutive side-dodges
-static var last_dodge_side := ""      # Tracks "left" or "right"
+static var last_dodge_side := ""      
 static var consecutive_dodge_count := 0
-
-# Track what type of dodge we did so the Attack state can read it cleanly
 var type_of_dodge_performed := "" 
 
 func check_relevance(input: InputPackage) -> String:
-	# Cancel directly into an attack if button is pressed mid-dodge
 	if input.actions.has("light_attack") or input.actions.has("heavy_attack"):
 		return "attack"
 	
 	if dodge_timer <= 0.0:
+		# --- DODGE TO SPRINT HANDOFF ---
+		# If they keep moving and are still holding the button, transition directly to running
 		if input.input_direction != Vector2.ZERO:
 			return "run"
 		return "idle"
@@ -31,9 +28,8 @@ func on_enter_state():
 	var input_pkg = player.input_gatherer.gather_input()
 	current_dodge_dir = input_pkg.dodge_direction
 	
-	# If the button was pressed by itself (neutral), force a Back Dodge
 	if current_dodge_dir == Vector2.ZERO:
-		current_dodge_dir = Vector2.DOWN # Vector2.DOWN points backward in screen-space input
+		current_dodge_dir = Vector2.DOWN 
 		
 	dodge_timer = DODGE_DURATION
 	determine_dodge_and_play_anim()
@@ -42,7 +38,6 @@ func determine_dodge_and_play_anim():
 	var x = current_dodge_dir.x
 	var y = current_dodge_dir.y
 	
-	# Determine primary direction based on vector axis strength
 	if abs(x) > abs(y):
 		if x > 0:
 			process_side_dodge("right")
@@ -68,14 +63,14 @@ func process_side_dodge(side: String):
 		
 	if side == "right":
 		if consecutive_dodge_count >= 2:
-			play_prefixed_animation("dodgeRight2") # Will play Armature|dodgeRight2
+			play_prefixed_animation("dodgeRight2") 
 		else:
-			play_prefixed_animation("dodgeRight")   # Will play Armature|dodgeRight
+			play_prefixed_animation("dodgeRight")   
 	elif side == "left":
 		if consecutive_dodge_count >= 2:
-			play_prefixed_animation("mixamo_com2")  # Will play Armature|mixamo_com2
+			play_prefixed_animation("mixamo_com2")  
 		else:
-			play_prefixed_animation("mixamo_com")   # Will play Armature|mixamo_com
+			play_prefixed_animation("mixamo_com")   
 
 func reset_consecutive_tracking():
 	last_dodge_side = ""
@@ -91,21 +86,15 @@ func update(input: InputPackage, delta: float):
 	player.handle_visuals(delta)
 
 func on_exit_state():
-	player.velocity.x = 0
-	player.velocity.z = 0
+	# Modified: Do not violently kill velocity here if transitioning directly into running.
+	# This avoids a jarring stutter frame at the end of the dodge roll.
+	pass
 
-## Automatically adds the prefix and safely tests existence
 func play_prefixed_animation(base_name: String, blend: float = 0.1):
 	if not anim_player:
 		return
-		
 	var prefixed_name = "Armature|" + base_name
-	
-	# 1. Try the plain name first (New Character)
 	if anim_player.has_animation(base_name):
 		anim_player.play(base_name, blend)
-	# 2. Fall back to the prefixed name (Old Character)
 	elif anim_player.has_animation(prefixed_name):
 		anim_player.play(prefixed_name, blend)
-	else:
-		print_rich("[color=yellow]Animation Warning:[/color] Neither '%s' nor '%s' found." % [base_name, prefixed_name])
