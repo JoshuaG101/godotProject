@@ -4,19 +4,17 @@ class_name Run
 # Adjust these speed multipliers as needed
 @export var SPRINT_SPEED_MULTIPLIER := 1.6
 
+# Inside Idle.gd
 func check_relevance(input: InputPackage) -> String:
-	if input.actions.has("jump") and player.is_on_floor():
-		return "jump"
-		
-	# Only dodge tap if we are NOT already holding it down to sprint
-	if input.actions.has("dodge") and not input.actions.has("dodge_held"):
-		return "dodge"
-	
 	if input.actions.has("light_attack") or input.actions.has("heavy_attack"):
 		return "attack"
+	if input.actions.has("dodge"):
+		return "dodge"
+	if input.actions.has("jump") and player.is_on_floor():
+		return "jump"
+	if input.input_direction != Vector2.ZERO:
+		return "run"
 		
-	if input.input_direction == Vector2.ZERO:
-		return "idle"
 	return "okay"
 
 func update(input: InputPackage, delta: float):

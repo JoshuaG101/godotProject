@@ -75,10 +75,18 @@ var active_hitbox: Hitbox = null
 # --- ENGINE VIRTUAL METHODS ---
 
 func check_relevance(input: InputPackage) -> String:
+	# If the animation is complete, allow transitions out
 	if attack_timer <= 0.0:
+		if input.actions.has("light_attack") or input.actions.has("heavy_attack"):
+			return "attack" # Chain into combo/next attack instantly
+		if input.actions.has("dodge"):
+			return "dodge"
+		if input.actions.has("jump") and player.is_on_floor():
+			return "jump"
 		if input.input_direction != Vector2.ZERO:
 			return "run"
 		return "idle"
+		
 	return "okay"
 
 func on_enter_state():

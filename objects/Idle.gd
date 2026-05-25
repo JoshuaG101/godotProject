@@ -11,16 +11,15 @@ func on_enter_state():
 		elif anim_player.has_animation("Armature|idle"):
 			anim_player.play("Armature|idle", 0.3)
 
+# Inside Idle.gd
 func check_relevance(input: InputPackage) -> String:
-	input.actions.sort_custom(moves_priority_sort)
-	
-	if input.actions.size() > 0:
-		var top_action = input.actions[0]
+	if input.actions.has("light_attack") or input.actions.has("heavy_attack"):
+		return "attack"
+	if input.actions.has("dodge"):
+		return "dodge"
+	if input.actions.has("jump") and player.is_on_floor():
+		return "jump"
+	if input.input_direction != Vector2.ZERO:
+		return "run"
 		
-		if top_action == "light_attack" or top_action == "heavy_attack":
-			return "attack"
-			
-		if top_action != "idle":
-			return top_action
-			
 	return "okay"
