@@ -3,6 +3,37 @@ class_name Attack
 
 # --- ATTACK CONFIGURATION DATABASE ---
 const ATTACK_DATABASE := {
+	"jab": {
+		"damage": 10.0,
+		"kb_force": 3.0,
+		"kb_dir": Vector3.ZERO,
+		"float_time": 0.0,
+		"start_frame": 2.0,   # Adjust these active frames to match your animation file
+		"end_frame": 7.0,
+		"is_directional": false,
+		"hitbox_node": "LeftHandHitbox" # Standard boxing jab uses the left hand
+	},
+	"jabCross": {
+		"damage": 15.0,
+		"kb_force": 5.0,
+		"kb_dir": Vector3.ZERO,
+		"float_time": 0.0,
+		"start_frame": 4.0,   # Adjust these active frames to match your animation file
+		"end_frame": 11.0,
+		"is_directional": false,
+		"hitbox_node": "RightHandHitbox" # Cross uses the power hand (Right hand)
+	},
+	"chargePunch": {
+		"damage": 30.0,
+		"kb_force": 15.0,
+		"kb_dir": Vector3.ZERO,
+		"float_time": 0.0,
+		"start_frame": 12.0,  # Adjust these active frames to match your animation file
+		"end_frame": 20.0,
+		"is_directional": true,
+		"hitbox_node": "RightHandHitbox"
+	},
+	
 	"fastestHeadbutt": {
 		"damage": 10.0,
 		"kb_force": 4.0,
@@ -193,10 +224,29 @@ func play_dodge_counter_attack(dodge_type: String):
 		"back": execute_attack("chargeAttacke2")
 
 func play_light_combo():
-	var base_anim = "fastestHeadbutt"
+	var base_anim := ""
+	
+	# Determine which animation plays depending on the active combo step
+	match light_combo_step:
+		1:
+			base_anim = "jab"
+			print("Combo Step 1: Jab")
+		2:
+			base_anim = "jab"
+			print("Combo Step 2: Follow-up Jab")
+		3:
+			base_anim = "jabCross"
+			print("Combo Step 3: Jab Cross!")
+		4:
+			base_anim = "chargePunch"
+			print("Combo Step 4: Finisher Charge Punch!!")
+			
+	# Execute the selected animation
 	execute_attack(base_anim)
+	
+	# Progress to the next step. (Loops back to 1 after completing step 4)
 	light_combo_step = (light_combo_step % 4) + 1
-
+	
 func play_heavy_attack():
 	execute_attack("heavy_attack_1")
 
