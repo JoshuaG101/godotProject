@@ -1,105 +1,8 @@
 extends Move
 class_name Attack
 
-# --- ATTACK CONFIGURATION DATABASE ---
-const ATTACK_DATABASE := {
-	"jab": {
-		"damage": 10.0,
-		"kb_force": 3.0,
-		"kb_dir": Vector3.ZERO,
-		"float_time": 0.0,
-		"start_frame": 2.0,   # Adjust these active frames to match your animation file
-		"end_frame": 7.0,
-		"is_directional": false,
-		"hitbox_node": "LeftHandHitbox" # Standard boxing jab uses the left hand
-	},
-	"jabCross": {
-		"damage": 15.0,
-		"kb_force": 5.0,
-		"kb_dir": Vector3.ZERO,
-		"float_time": 0.0,
-		"start_frame": 4.0,   # Adjust these active frames to match your animation file
-		"end_frame": 11.0,
-		"is_directional": false,
-		"hitbox_node": "RightHandHitbox" # Cross uses the power hand (Right hand)
-	},
-	"chargePunch": {
-		"damage": 30.0,
-		"kb_force": 15.0,
-		"kb_dir": Vector3.ZERO,
-		"float_time": 0.0,
-		"start_frame": 12.0,  # Adjust these active frames to match your animation file
-		"end_frame": 20.0,
-		"is_directional": true,
-		"hitbox_node": "RightHandHitbox"
-	},
-	
-	"fastestHeadbutt": {
-		"damage": 10.0,
-		"kb_force": 4.0,
-		"kb_dir": Vector3.ZERO,
-		"float_time": 0.0,
-		"start_frame": 3.0,
-		"end_frame": 8.0,
-		"is_directional": false,
-		"hitbox_node": "HeadHitbox"
-	},
-	"heavy_attack_1": {
-		"damage": 20.0,
-		"kb_force": 10.0,
-		"kb_dir": Vector3.ZERO,
-		"float_time": 0.0,
-		"start_frame": 8.0,
-		"end_frame": 16.0,
-		"is_directional": false,
-		"hitbox_node": "RightHandHitbox"
-	},
-	"fastestLeftHook": {
-		"damage": 15.0,
-		"kb_force": 5.0,
-		"kb_dir": Vector3.ZERO,
-		"float_time": 0.0,
-		"start_frame": 4.0,
-		"end_frame": 10.0,
-		"is_directional": false,
-		"hitbox_node": "LeftHandHitbox"
-	},
-	"fastestRightHook": {
-		"damage": 15.0,
-		"kb_force": 5.0,
-		"kb_dir": Vector3.ZERO,
-		"float_time": 0.0,
-		"start_frame": 4.0,
-		"end_frame": 10.0,
-		"is_directional": false,
-		"hitbox_node": "RightHandHitbox"
-	},
-	"uppercut": {
-		"damage": 25.0,
-		"kb_force": 6.0,
-		"kb_dir": Vector3.ZERO,
-		"float_time": 0.5,
-		"start_frame": 6.0,
-		"end_frame": 12.0,
-		"is_directional": true,
-		"hitbox_node": "RightHandHitbox"
-	},
-	"chargeAttacke2": {
-		"damage": 35.0,
-		"kb_force": 22.0,
-		"kb_dir": Vector3.ZERO,
-		"float_time": 0.0,
-		"start_frame": 14.0,
-		"end_frame": 22.0,
-		"is_directional": true,
-		"hitbox_node": "RightHandHitbox",
-		
-		# --- NEW: Forward lunge configuration ---
-		"forward_dash_speed": 14.0,       # How fast the player surges forward
-		"dash_start_frame": 6.0,          # The frame they start moving forward (wind-up/release)
-		"dash_end_frame": 15.0            # The frame they snap to a halt
-	}
-}
+# --- NEW: Link your data file here ---
+@export var database: AttackDatabase
 
 # --- STATE VARIABLES ---
 var attack_timer := 0.0
@@ -107,7 +10,6 @@ var current_anim_duration := 0.5
 var light_combo_step := 1
 var current_attack_meta: Dictionary = {}
 var active_hitbox: Hitbox = null
-
 # --- ENGINE VIRTUAL METHODS ---
 
 func check_relevance(input: InputPackage) -> String:
@@ -198,6 +100,7 @@ func on_exit_state():
 # --- CORE EXECUTION ROUTINE ---
 
 func execute_attack(base_anim: String):
+	# Default fallback data structure
 	var meta = {
 		"damage": 10.0,
 		"kb_force": 4.0,
@@ -209,8 +112,11 @@ func execute_attack(base_anim: String):
 		"hitbox_node": "RightHandHitbox" 
 	}
 	
-	if ATTACK_DATABASE.has(base_anim):
-		meta = ATTACK_DATABASE[base_anim].duplicate()
+	# --- MODIFIED: Fetch from resource file safely ---
+	if database && database.attacks.has(base_anim):
+		meta = database.attacks[base_anim].duplicate()
+	else:
+		print_rich("[color=red]Database Error:[/color] Attack details missing or file unassigned for: %s" % base_anim)
 		
 	if meta.get("is_directional", false) and player:
 		var forward_vector = -player.visuals.global_transform.basis.z.normalized()
