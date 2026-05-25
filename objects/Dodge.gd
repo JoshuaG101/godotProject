@@ -3,6 +3,8 @@ class_name Dodge
 
 @export var DODGE_SPEED := 12.0
 @export var DODGE_DURATION := 0.4
+@export var IFRAMES: float = 13.0
+@export var TARGET_FPS: float = 60.0
 
 var dodge_timer := 0.0
 var current_dodge_dir := Vector2.ZERO
@@ -33,6 +35,20 @@ func on_enter_state():
 		
 	dodge_timer = DODGE_DURATION
 	determine_dodge_and_play_anim()
+	
+	# --- INVINCIBILITY LOGIC START ---
+	player.is_invincible = true
+	
+	# Calculate duration in seconds (13 / 60 = ~0.216s)
+	var iframe_duration = IFRAMES / TARGET_FPS
+	
+	# Wait for the i-frames to finish, then disable invincibility safely
+	get_tree().create_timer(iframe_duration).timeout.connect(
+		func(): 
+			# Only turn off if we haven't already dodged again or left the state
+			if player: 
+				player.is_invincible = false
+	)
 
 func determine_dodge_and_play_anim():
 	var x = current_dodge_dir.x

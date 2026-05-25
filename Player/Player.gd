@@ -18,6 +18,7 @@ var current_health: float
 
 @export var max_stamina: float = 100.0
 var current_stamina: float
+var is_invincible: bool = false
 
 func _ready() -> void:
 	current_health = max_health
@@ -29,6 +30,11 @@ func _ready() -> void:
 
 # Example function for taking damage
 func take_damage(amount: float):
+	# If the player is invincible, completely ignore the hit
+	if is_invincible:
+		print("Dodged! Invincible frame active.")
+		return
+		
 	current_health = clamp(current_health - amount, 0.0, max_health)
 	health_bar.change_value(current_health)
 	
