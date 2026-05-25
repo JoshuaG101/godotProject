@@ -92,7 +92,12 @@ const ATTACK_DATABASE := {
 		"start_frame": 14.0,
 		"end_frame": 22.0,
 		"is_directional": true,
-		"hitbox_node": "RightHandHitbox"
+		"hitbox_node": "RightHandHitbox",
+		
+		# --- NEW: Forward lunge configuration ---
+		"forward_dash_speed": 14.0,       # How fast the player surges forward
+		"dash_start_frame": 6.0,          # The frame they start moving forward (wind-up/release)
+		"dash_end_frame": 15.0            # The frame they snap to a halt
 	}
 }
 
@@ -140,20 +145,44 @@ func on_enter_state():
 func update(_input: InputPackage, delta: float):
 	attack_timer -= delta
 	
-	if current_attack_meta.is_empty() or not active_hitbox:
+	if current_attack_meta.is_empty():
 		return
 
+	# Calculate current frame based on standard 30 FPS animation timeline
 	var elapsed_time = current_anim_duration - attack_timer
 	var current_frame = elapsed_time * 30.0
 	
-	var start = current_attack_meta.get("start_frame", 0.0)
-	var end = current_attack_meta.get("end_frame", 999.0)
-	
-	# --- HITBOX FRAME MONITORING ---
-	if current_frame >= start and current_frame <= end:
-		active_hitbox.monitoring = true
+	# --- 1. FORWARD DASH LOGIC ---
+	if current_attack_meta.has("forward_dash_speed"):
+		var dash_start = current_attack_meta.get("dash_start_frame", 0.0)
+		var dash_end = current_attack_meta.get("dash_end_frame", 0.0)
+		
+		if current_frame >= dash_start and current_frame <= dash_end:
+			# Get the direction the player's model is looking (-Z is standard forward in Godot)
+			var forward_direction = -player.visuals.global_transform.basis.z.normalized()
+			var dash_speed = current_attack_meta.get("forward_dash_speed", 0.0)
+			
+			# Apply horizontal velocity
+			player.velocity.x = forward_direction.x * dash_speed
+			player.velocity.z = forward_direction.z * dash_speed
+		else:
+			# Stop moving forward when outside the dash window
+			player.velocity.x = move_toward(player.velocity.x, 0, player.RUN_SPEED * 2.0 * delta)
+			player.velocity.z = move_toward(player.velocity.z, 0, player.RUN_SPEED * 2.0 * delta)
 	else:
-		active_hitbox.monitoring = false
+		# Standard attack freeze behavior if no dash property exists
+		player.velocity.x = 0
+		player.velocity.z = 0
+		
+	# --- 2. HITBOX FRAME MONITORING ---
+	if active_hitbox:
+		var start = current_attack_meta.get("start_frame", 0.0)
+		var end = current_attack_meta.get("end_frame", 999.0)
+		
+		if current_frame >= start and current_frame <= end:
+			active_hitbox.monitoring = true
+		else:
+			active_hitbox.monitoring = false
 
 func on_exit_state():
 	if active_hitbox: 
@@ -200,8 +229,6 @@ func execute_attack(base_anim: String):
 
 	var full_hitbox_path = "Armature/Skeleton3D/" + bone_attachment_name + "/" + node_name
 	
-	# ... (Keep your path calculation code above this)
-
 	if player and player.has_node(full_hitbox_path):
 		active_hitbox = player.get_node(full_hitbox_path) as Hitbox
 		# SIGNAL CONNECTION REMOVED FROM HERE
