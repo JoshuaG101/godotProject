@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cgqjm02ky4byi" path="res://mainCharacter/mainCharachterAnimations_Gemini_Generated_Image_htt2pshtt2pshtt2.png" id="3_meg0a"]
 [ext_resource type="Script" uid="uid://5t5dxya8wpuv" path="res://objects/hitbox.gd" id="4_52mj0"]
 [ext_resource type="Script" uid="uid://ckhqougf66pmg" path="res://Player/Input.gd" id="5_1u8xe"]
+[ext_resource type="PackedScene" uid="uid://wtajx32g1wkl" path="res://hit_effect.tscn" id="5_meg0a"]
 [ext_resource type="Script" uid="uid://0yfssx6pjge7" path="res://Player/Model.gd" id="6_cuqn5"]
 [ext_resource type="Script" uid="uid://tkli8nmibbqb" path="res://objects/Idle.gd" id="7_52mj0"]
 [ext_resource type="Script" uid="uid://82mfd2ldenat" path="res://objects/run.gd" id="8_ebfe6"]
@@ -47863,9 +47864,10 @@ bone_idx = 10
 
 [node name="LeftHandHitbox" type="Area3D" parent="Armature/Skeleton3D/LeftHand" unique_id=19351191]
 script = ExtResource("4_52mj0")
+hit_effect_scene = ExtResource("5_meg0a")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Armature/Skeleton3D/LeftHand/LeftHandHitbox" unique_id=465723082]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7881393e-07, 10.412386, 2.973055)
+transform = Transform3D(-2.1697817, 0, 0, 0, 2.1975062, 0, 0, 0, 1, 1.4648167e-07, 22.82891, 2.973055)
 shape = SubResource("SphereShape3D_ebfe6")
 
 [node name="RightHand" type="BoneAttachment3D" parent="Armature/Skeleton3D" unique_id=1503054585]
@@ -47875,6 +47877,7 @@ bone_idx = 34
 
 [node name="RightHandHitbox" type="Area3D" parent="Armature/Skeleton3D/RightHand" unique_id=237936719]
 script = ExtResource("4_52mj0")
+hit_effect_scene = ExtResource("5_meg0a")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Armature/Skeleton3D/RightHand/RightHandHitbox" unique_id=1701238248]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7881393e-07, 10.412386, 2.973055)
