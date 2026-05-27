@@ -47899,13 +47899,14 @@ script = ExtResource("3_gubtu")
 [node name="h" type="Node3D" parent="Camera_mount" unique_id=600233251]
 
 [node name="v" type="SpringArm3D" parent="Camera_mount/h" unique_id=744442783]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7867851, 2.2997189)
 collision_mask = 16777215
 shape = SubResource("SphereShape3D_gubtu")
 spring_length = 3.0
 margin = 14.665
 
 [node name="Camera3D" type="Camera3D" parent="Camera_mount/h/v" unique_id=296319558]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2206626, 0)
 
 [node name="Input" type="Node" parent="." unique_id=1253759924]
 script = ExtResource("5_1u8xe")
