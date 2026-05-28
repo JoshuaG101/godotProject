@@ -45,7 +45,7 @@ transform = Transform3D(-0.9982367, 0, 0.059358645, 0, 1, 0, -0.059358645, 0, -0
 transform = Transform3D(-0.9982367, 0, 0.059358645, 0, 1, 0, -0.059358645, 0, -0.9982367, -477.40295, 117.16217, 1101.0795)
 
 [node name="confetti_cannon" parent="sfx" unique_id=1060187265 instance=ExtResource("5_8hd6v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -186.12775, 68.95747, 299.41925)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -186.12775, 68.95747, 368.59088)
 
 [node name="confetti_cannon2" parent="sfx" unique_id=1368333203 instance=ExtResource("5_8hd6v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -320.3439, 74.72061, 328.84494)
