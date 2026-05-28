@@ -10,6 +10,7 @@ var current_anim_duration := 0.5
 var light_combo_step := 1
 var current_attack_meta: Dictionary = {}
 var active_hitbox: Hitbox = null
+
 # --- ENGINE VIRTUAL METHODS ---
 
 func check_relevance(input: InputPackage) -> String:
@@ -51,7 +52,9 @@ func update(_input: InputPackage, delta: float):
 		return
 
 	# Calculate current frame based on standard 30 FPS animation timeline
-	var elapsed_time = current_anim_duration - attack_timer
+	# Note: If animation is sped up, the frame counting calculation updates accordingly
+	var speed_mod = current_attack_meta.get("anim_speed", 1.0)
+	var elapsed_time = (current_anim_duration - attack_timer) * speed_mod
 	var current_frame = elapsed_time * 30.0
 	
 	# --- 1. FORWARD DASH LOGIC ---
@@ -60,19 +63,15 @@ func update(_input: InputPackage, delta: float):
 		var dash_end = current_attack_meta.get("dash_end_frame", 0.0)
 		
 		if current_frame >= dash_start and current_frame <= dash_end:
-			# Get the direction the player's model is looking (-Z is standard forward in Godot)
 			var forward_direction = -player.visuals.global_transform.basis.z.normalized()
 			var dash_speed = current_attack_meta.get("forward_dash_speed", 0.0)
 			
-			# Apply horizontal velocity
 			player.velocity.x = forward_direction.x * dash_speed
 			player.velocity.z = forward_direction.z * dash_speed
 		else:
-			# Stop moving forward when outside the dash window
 			player.velocity.x = move_toward(player.velocity.x, 0, player.RUN_SPEED * 2.0 * delta)
 			player.velocity.z = move_toward(player.velocity.z, 0, player.RUN_SPEED * 2.0 * delta)
 	else:
-		# Standard attack freeze behavior if no dash property exists
 		player.velocity.x = 0
 		player.velocity.z = 0
 		
@@ -93,6 +92,10 @@ func on_exit_state():
 	active_hitbox = null
 	current_attack_meta.clear()
 	
+	# Reset animation speed back to standard global default 
+	if anim_player:
+		anim_player.speed_scale = 1.0
+	
 	await get_tree().create_timer(0.8).timeout
 	if get_parent().current_state != self:
 		light_combo_step = 1
@@ -109,14 +112,26 @@ func execute_attack(base_anim: String):
 		"start_frame": 0.0,
 		"end_frame": 999.0,
 		"is_directional": false,
-		"hitbox_node": "RightHandHitbox" 
+		"hitbox_node": "RightHandHitbox",
+		"anim_speed": 1.0
 	}
 	
-	# --- MODIFIED: Fetch from resource file safely ---
+	# Check explicit hitboxes & speed adjustments per animation type override
+	if base_anim == "jab":
+		meta["hitbox_node"] = "LeftHandHitbox"
+		meta["anim_speed"] = 1.35 # 35% faster animation speed
+	elif base_anim == "jabCross":
+		meta["hitbox_node"] = "RightHandHitbox"
+	elif base_anim == "chargePunch":
+		meta["hitbox_node"] = "RightHandHitbox"
+	
+	# --- Fetch from resource file safely ---
 	if database && database.attacks.has(base_anim):
-		meta = database.attacks[base_anim].duplicate()
+		var db_meta = database.attacks[base_anim].duplicate()
+		for key in db_meta.keys():
+			meta[key] = db_meta[key] # Merge data while maintaining overrides
 	else:
-		print_rich("[color=red]Database Error:[/color] Attack details missing or file unassigned for: %s" % base_anim)
+		print_rich("[color=yellow]Database Notice:[/color] Using programmatic metadata fallbacks for: %s" % base_anim)
 		
 	if meta.get("is_directional", false) and player:
 		var forward_vector = -player.visuals.global_transform.basis.z.normalized()
@@ -137,15 +152,15 @@ func execute_attack(base_anim: String):
 	
 	if player and player.has_node(full_hitbox_path):
 		active_hitbox = player.get_node(full_hitbox_path) as Hitbox
-		# SIGNAL CONNECTION REMOVED FROM HERE
 	else:
 		print_rich("[color=yellow]Hitbox Warning:[/color] Could not find %s." % full_hitbox_path)
 		active_hitbox = null
 		
 	setup_hitbox_data(meta.damage, meta.kb_force, meta.get("kb_dir", Vector3.ZERO), meta.float_time)
 
-	play_prefixed_animation(base_anim)
-	set_attack_window(base_anim)
+	# Pass the speed modifier to the playing functions
+	play_prefixed_animation(base_anim, 0.1, meta["anim_speed"])
+	set_attack_window(base_anim, meta["anim_speed"])
 
 # --- INDIVIDUAL ATTACK WRAPPERS ---
 
@@ -163,13 +178,13 @@ func play_light_combo():
 	match light_combo_step:
 		1:
 			base_anim = "jab"
-			print("Combo Step 1: Jab")
+			print("Combo Step 1: Left Jab")
 		2:
 			base_anim = "jab"
-			print("Combo Step 2: Follow-up Jab")
+			print("Combo Step 2: Follow-up Left Jab")
 		3:
 			base_anim = "jabCross"
-			print("Combo Step 3: Jab Cross!")
+			print("Combo Step 3: Right Jab Cross!")
 		4:
 			base_anim = "chargePunch"
 			print("Combo Step 4: Finisher Charge Punch!!")
@@ -193,17 +208,20 @@ func setup_hitbox_data(dmg: float, kb_force: float, kb_dir: Vector3 = Vector3.ZE
 		if "float_time" in active_hitbox:
 			active_hitbox.float_time = float_duration
 
-func set_attack_window(base_name: String):
+func set_attack_window(base_name: String, speed_mod: float = 1.0):
 	var full_name = "Armature|" + base_name
 	if anim_player and anim_player.has_animation(full_name):
-		current_anim_duration = anim_player.get_animation(full_name).length
+		current_anim_duration = anim_player.get_animation(full_name).length / speed_mod
 	else:
-		current_anim_duration = 0.4
+		current_anim_duration = 0.4 / speed_mod
 	attack_timer = current_anim_duration
 
-func play_prefixed_animation(base_name: String, blend: float = 0.1):
+func play_prefixed_animation(base_name: String, blend: float = 0.1, speed_mod: float = 1.0):
 	if not anim_player:
 		return
+		
+	# Apply the engine playback speed scale change
+	anim_player.speed_scale = speed_mod
 		
 	var prefixed_name = "Armature|" + base_name
 	if anim_player.has_animation(base_name):
@@ -212,6 +230,7 @@ func play_prefixed_animation(base_name: String, blend: float = 0.1):
 		anim_player.play(prefixed_name, blend)
 	else:
 		print_rich("[color=yellow]Animation Warning:[/color] Neither '%s' nor '%s' found." % [base_name, prefixed_name])
+		anim_player.speed_scale = 1.0
 
 # --- SIGNAL PROCESSING ---
 

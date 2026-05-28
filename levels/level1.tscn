@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dskrq3je33521" path="res://bgsfx/confetti.tscn" id="3_61w3m"]
 [ext_resource type="PackedScene" uid="uid://1qocc34k7rnk" path="res://bgsfx/firework.tscn" id="4_pdpul"]
 [ext_resource type="PackedScene" uid="uid://cny1bfmxvenkw" path="res://bgsfx/confetti cannon.tscn" id="5_8hd6v"]
+[ext_resource type="PackedScene" uid="uid://f6ag6dlovgwd" path="res://objects/evilSteve.tscn" id="6_pdpul"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_045es"]
 sky_top_color = Color(0.0041653765, 0.0648424, 0.06671016, 1)
@@ -29,7 +30,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2012329, 1.9659996, 21.3810
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1751051846]
 transform = Transform3D(0.01525051, 0.9990978, -0.039635874, -0.35877708, 0.04246858, 0.93245673, 0.9332987, 1.7384044e-09, 0.3591011, -7.773488, 141.62924, -29.902548)
-light_energy = 0.2
+light_color = Color(0.9982212, 0.8753853, 0.816224, 1)
+light_energy = 0.325
 
 [node name="sfx" type="Node" parent="." unique_id=840847833]
 
@@ -54,8 +56,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -184.97989, 68.90164, 538.457
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=568652635]
 environment = SubResource("Environment_lf3p4")
 
-[node name="Steve" parent="." unique_id=638694537 instance=ExtResource("2_b3oru")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -207.53897, 47.00959, 374.56058)
+[node name="evilSteve" parent="." unique_id=638694537 instance=ExtResource("6_pdpul")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -242.76181, 46.26264, 365.8349)
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1420164319]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -204.18286, 64.08886, 376.74014)
+[node name="Steve" parent="." unique_id=1719264530 instance=ExtResource("2_b3oru")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -240.08606, 47.265102, 335.69098)
